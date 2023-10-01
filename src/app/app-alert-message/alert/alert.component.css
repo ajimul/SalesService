@@ -1,0 +1,17 @@
+h1{
+    color: red;
+}
+.border-solid-05-gray{
+    border: solid 0.5px #B6B3B2;
+}
+p{
+    /* color: rgb(255, 115, 0); */
+    padding-left: 2px;
+}
+
+.bg-color{
+    background-color: rgb(243, 231, 128);
+}
+.heared-hght{
+    height: 5vh;
+}

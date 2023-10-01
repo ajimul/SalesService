@@ -1,0 +1,10 @@
+{
+  "/api": {
+    "target": "https://spotsolution.store:8009",
+    "secure": false,
+    "pathRewrite": {
+      "^/api": "/api"
+    },
+    "changeOrigin": true
+  }
+}

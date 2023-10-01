@@ -1,0 +1,144 @@
+.bg {
+    background-color: hsl(210, 12%, 57%);
+    margin: 5px;
+
+}
+
+header {
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0px;
+    align-items: end;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 2px;
+}
+.fieldset-root>legend{
+    font-size: 1.5em;
+    margin: auto;
+
+}
+header>button {
+    outline: none;
+    border: none;
+    background-color: red;
+    color: white;
+    font-size: 1rem;
+}
+
+header>button:hover {
+    font-size: 1.2rem;
+}
+
+label {
+    margin: 5px;
+    min-width: 32.1%;
+}
+
+input {
+    width: 100%;
+}
+
+.checkbox {
+    margin-top: 6px;
+    height: 15px;
+    text-align: start;
+    justify-content: start;
+    margin-left: 0;
+}
+
+textarea {
+    width: 97%;
+    margin: 5px;
+}
+
+.fieldset-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.billing-add {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.billing-add>textarea {
+    margin-top: 10px;
+}
+
+.billing-add>div {
+    margin-top: 5px;
+}
+
+.same-add {
+    display: flex;
+    flex-direction: row;
+}
+
+.same-add>input {
+    width: 5%;
+    text-align: center;
+    justify-content: center;
+}
+
+.shiping-add {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    text-align: center;
+}
+
+.submit-btn {
+    margin-right: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+
+}
+.submit-btn>button {
+  font-size: 1rem;
+  margin-right: 5px;
+
+}
+
+
+@media only screen and (min-width: 300px) and (max-width: 500px) {
+
+    label {
+        /* margin: 5px; */
+        min-width: 95%;
+        text-align: start;
+    }
+
+    input {
+        width: 100%;
+    }
+
+    .fieldset-group {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+
+    .billing-add {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .shiping-add {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .same-add{
+        margin-left: 5px;
+        margin-right: 15px;
+    }
+
+   
+}

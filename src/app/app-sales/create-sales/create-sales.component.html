@@ -1,0 +1,740 @@
+<main>
+
+    <header class="bg">
+        <div>
+            <p>Sales Voucher Entry Works!</p>
+        </div>
+    </header>
+    <div [style]="formField">
+        <div [style]="formField" class="bg flex-col margin5px">
+            <!--  [style]="formField" -->
+            <fieldset class="margin overflow-auto position-relative">
+                <legend><strong>Fill The Party Details </strong></legend>
+                <div class="party-dtl-flex gap12px " [formGroup]="salesVoucherForm">
+                    <div class="flex-col  width100">
+                        <div> <label for="partyAc" class="label100">
+                                <strong>Party A/c Name :</strong> </label>
+                        </div>
+                        <div> <input autocomplete="off" formControlName="fieldPartyAccount" id="partyAc" name="partyAc"
+                                type="text" required placeholder="Search By Party Name" aria-label="Username"
+                                aria-describedby="addon-wrapping" (keypress)="searchingPartyAccountEvent()"
+                                (keydown.enter)="matchingPartyAccountSelectEvent($event)"
+                                (click)="searchingPartyAccountEvent()" [(ngModel)]="accountName" value={{accountName}}
+                                (keyup)="partyAccountFilterDataEvent($event)" class="inputtext100">
+                        </div>
+
+                    </div>
+                    <!-- <div class="flex-col  width100">
+                        <div>
+                            <label for="voucherNo" class="label100"><strong>Voucher no. :</strong></label>
+                        </div>
+                        <div>
+                            <input id="voucherNo" formControlName="fieldVoucherNo" name="first-name" type="text"
+                                required value="101" [(ngModel)]="invoiceNo" class="inputtext100" />
+                        </div>
+                    </div> -->
+                    <!-- <div class="flex-col  width100">
+                        <div> <label for="voucherDate" class="label100"><strong>Voucher date :</strong>
+                            </label>
+                        </div>
+                        <div>
+                            <input id="voucherDate" formControlName="fieldVoucherDate" name="first-name" type="date"
+                                [ngModel]="currentDate | date:'yyyy-MM-dd'" required class="inputdate100" />
+                        </div>
+
+                    </div> -->
+                    <div class="flex-col  width100">
+                        <div>
+                            <label for="transactionDate" class="label100"><strong> Transaction date :</strong> </label>
+                        </div>
+                        <div>
+                            <input id="transactionDate" formControlName="fieldTransactionDate" name="first-name"
+                                type="date" [ngModel]="currentDate | date:'yyyy-MM-dd'" required class="inputdate100" />
+                        </div>
+                    </div>
+                </div>
+                <div [style]="partyAddressDisplay">
+                    <div class="flex-row  width100 gap12px">
+                        <!--   [style]="partyAddressDisplay" -->
+                        <div class=" flex-col width100">
+                            <span><strong>Billing From:</strong></span>
+                            <textarea aria-label="With textarea" disabled id="billingAddress"
+                                [(ngModel)]="addressBillingFrom"> <strong>{{addressBillingFrom}}</strong></textarea>
+                        </div>
+                        <div class="flex-col  width100">
+                            <span><strong>Shiping From:</strong></span>
+                            <textarea aria-label="With textarea" disabled
+                                [(ngModel)]="addressShipingFrom"> <strong>{{addressShipingFrom}}</strong></textarea>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <div [style]="partyDisplay" class="party-list">
+                <!--   [style]="partyDisplay"  -->
+                <div class="party-action margin-top5px margin-btm5px">
+                    <div class="width100 margin-left5px">
+                        <button type="button" (click)="openDialogCreateNewPartyAccount()">
+                            <strong>Create New Party</strong></button>
+                    </div>
+                    <div>
+                        <button type="button" class="close-btn margin-right5px " (click)="closePartyTableAction()">
+                            <strong>Close</strong>
+                        </button>
+                    </div>
+                </div>
+                <div class="overflow-auto">
+                    <table mat-table matSort [dataSource]="dataSourcePartyAccounts" class="bg">
+
+                        <ng-main-container matColumnDef="accountId">
+                            <th mat-header-cell *matHeaderCellDef></th>
+                            <td mat-cell *matCellDef="let element;let i = index" style="visibility: var(false);">
+                            </td>
+                        </ng-main-container>
+
+                        <ng-main-container matColumnDef="accountName">
+                            <th mat-header-cell *matHeaderCellDef><strong><strong>Party Name</strong></strong></th>
+                            <td mat-cell *matCellDef="let element;let i = index" style="visibility: var(false);">
+                                <strong>{{element.accountName}}</strong>
+                            </td>
+                        </ng-main-container>
+
+                        <ng-main-container matColumnDef="partyContactNo1">
+                            <th mat-header-cell *matHeaderCellDef><strong> Mobile No.
+                                </strong></th>
+                            <td mat-cell *matCellDef="let element"> <strong>{{element.partyContactNo1}}</strong>
+                            </td>
+                        </ng-main-container>
+
+                        <ng-main-container matColumnDef="partyEmailId">
+                            <th mat-header-cell *matHeaderCellDef><strong> Email</strong></th>
+                            <td mat-cell *matCellDef="let element"> <strong>{{element.partyEmailId}}</strong>
+                            </td>
+                        </ng-main-container>
+
+                        <ng-main-container matColumnDef="partyBillingAddress">
+                            <th mat-header-cell *matHeaderCellDef>
+                                <!-- <strong> Billing From</strong> -->
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <!-- <strong>{{element.partyBillingAddress}}</strong> -->
+                            </td>
+                        </ng-main-container>
+
+                        <ng-main-container matColumnDef="partyShipingAddress">
+                            <th mat-header-cell *matHeaderCellDef>
+                                <!-- <strong> Billing From </strong> -->
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <!-- <strong>{{element.partyShipingAddress}}</strong> -->
+                            </td>
+                        </ng-main-container>
+
+                        <ng-main-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef style="width: 10% !important;"><strong>Action
+                                </strong></th>
+                            <td mat-cell *matCellDef="let element;">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <i class="fa  fa-pencil-square fa-lg" aria-hidden="true"
+                                    (click)="openDialogUpdatePartyAccountsAccount(element)"></i>
+                            </td>
+                        </ng-main-container>
+
+                        <tr mat-header-row class="mat-header-row" *matHeaderRowDef="partyColumns"></tr>
+                        <tr mat-row class="mat-row" (click)="clickedRowsPartyAccounts.add(row)"
+                            [class.demo-row-is-clicked]="clickedRowsPartyAccounts.has(row)"
+                            *matRowDef="let row; columns: partyColumns;" (click)="selectingPartyAccountAction()">
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div [style]="addStockbtn">
+        <div class="flex-col margin-top5px margin-left5px margin-right5px heder-color">
+            <div class="margin5px stock-add ">
+                <!--  [style]="addStockbtn" -->
+                <button type="button" class="stock-add-btn width100" (click)="addStock()"><strong>Add Stock</strong>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div [style]="produtcsDisplay">
+        <div class="bg flex-col margin-left5px margin-right5px overflow-auto">
+            <!--  [style]="produtcsDisplay" -->
+            <table mat-table [dataSource]="dataSourceListOfProduct" class="cart ">
+
+                <ng-main-container matColumnDef="productNo">
+                    <th mat-header-cell *matHeaderCellDef style="" id="cart-id"><strong> S.No. </strong></th>
+                    <td mat-cell *matCellDef="let element;let i = index" id="cart-id" style="">
+                        <strong>{{i+1}}</strong>
+                    </td>
+                </ng-main-container>
+
+                <ng-main-container matColumnDef="productName">
+                    <th mat-header-cell *matHeaderCellDef style="" id="cart-particular"><strong>Particulars</strong>
+                    </th>
+                    <td mat-cell *matCellDef="let element;let row_index = index;" id="cart-particular">
+                        <input type="text" id="{{'productName'+row_index}}" [(ngModel)]="element.productName"
+                            (change)="changeProductValue()" (keydown)="navigationUpDown(row_index,2)"
+                            [value]='element.productName' style="">
+
+                    </td>
+                </ng-main-container>
+                <ng-main-container matColumnDef="productHsn">
+                    <th mat-header-cell *matHeaderCellDef style="" id="cart-hsn">
+                        <strong>HSN</strong>
+                    </th>
+                    <td mat-cell *matCellDef="let element" style="" id="cart-hsn">
+                        <strong>{{element.productHsn}}</strong>
+                    </td>
+                </ng-main-container>
+
+                <ng-main-container matColumnDef="productQty">
+                    <th mat-header-cell *matHeaderCellDef id="cart-qty" style=""><strong>Qty
+                        </strong></th>
+                    <td mat-cell *matCellDef="let element;let row_index = index;" id="cart-qty">
+                        <input type="text" [(ngModel)]="element.productQty" (change)="changeProductValue()"
+                            id="{{'productQty'+row_index}}" (keydown)="navigationUpDown(row_index,2)"
+                            [value]='element.productQty' style="">
+                    </td>
+
+                </ng-main-container>
+
+                <ng-main-container matColumnDef="productSalesPrice">
+                    <th mat-header-cell *matHeaderCellDef id="cart-price" style=""><strong>Price
+                        </strong></th>
+                    <td mat-cell *matCellDef="let element;let row_index = index;" id="cart-price">
+                        <input type="text" [(ngModel)]="element.productSalesPrice" (change)="changeProductValue()"
+                            id="{{'productSalesPrice'+row_index}}" (keydown)="navigationUpDown(row_index,2)"
+                            [value]='element.productSalesPrice' style="">
+                    </td>
+                </ng-main-container>
+
+                <ng-main-container matColumnDef="productPer">
+                    <th mat-header-cell *matHeaderCellDef id="cart-unit" style=""><strong>Per
+                        </strong></th>
+                    <td mat-cell *matCellDef="let element" id="cart-unit" style="">
+                        <strong>{{element.productPer}}</strong>
+                    </td>
+                </ng-main-container>
+
+                <ng-main-container matColumnDef="productDiscount">
+                    <th mat-header-cell *matHeaderCellDef id="cart-discount" style=""><strong>Discount%
+                        </strong></th>
+                    <td mat-cell *matCellDef="let element;let row_index = index;" id="cart-discount">
+                        <input type="text" [(ngModel)]="element.productDiscount" (change)="changeProductValue()"
+                            id="{{'productDiscount'+row_index}}" (keydown)="navigationUpDown(row_index,2)"
+                            [value]='element.productDiscount' style="">
+                    </td>
+                </ng-main-container>
+
+                <ng-main-container matColumnDef="productFinalGst">
+                    <th mat-header-cell *matHeaderCellDef id="cart-tax" style=""> <strong>Tax
+                        </strong></th>
+                    <td mat-cell *matCellDef="let element" id="myId" id="cart-tax">
+                        <input type="text" value={{element.productFinalGst}} [(ngModel)]="element.productFinalGst"
+                            (change)="changeProductValue()" style="">
+                    </td>
+                </ng-main-container>
+
+                <ng-main-container matColumnDef="productTotalAmount">
+                    <th mat-header-cell *matHeaderCellDef id="cart-total" style=""><strong>Amount</strong></th>
+                    <td mat-cell *matCellDef="let element;let row_index = index;" id="cart-total">
+                        <input type="text" [(ngModel)]="element.productTotalAmount" (change)="changeProductValue()"
+                            id="{{'productTotalAmount'+row_index}}" (keydown)="navigationUpDown(row_index,2)"
+                            [value]='element.productTotalAmount' readonly style="">
+                    </td>
+                </ng-main-container>
+
+                <ng-main-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef style=""><strong>Action
+                        </strong></th>
+                    <td mat-cell *matCellDef="let element; let i=index;" style="">
+                        <!-- <i class="fa  fa-pencil-square fa-lg" aria-hidden="true"></i> -->
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <i class="fa-solid fa-trash fa-lg" style="color: rgb(226, 11, 11);" aria-hidden="true"
+                            (click)="openDeleteProductDialog(i)"></i>
+                    </td>
+                </ng-main-container>
+                <tr mat-header-row class="mat-header-row" *matHeaderRowDef="productColumns"></tr>
+                <tr mat-row class="mat-row" (click)="clickedRowsListOfProduct.add(row)"
+                    [class.demo-row-is-clicked]="clickedRowsListOfProduct.has(row)"
+                    *matRowDef="let row; columns: productColumns;"></tr>
+            </table>
+
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Stock List of Items   -->
+    <div [style]="stockDisplay">
+        <div class="bg margin5px overflow-auto">
+            <!--  [style]="stockDisplay" -->
+            <fieldset>
+                <legend></legend>
+                <div class="stock-flex jus-con-evenly margin-top5px margin-btn5px">
+                    <div class="stock-flex-1  gap10px width100 jus-con-start ">
+                        <div class="width100">
+                            <input type="text" type="text" (keyup)="filterProductData($event)"
+                                [(ngModel)]="filterProductName" placeholder="Search By Stock Name" class="width100">
+                        </div>
+                        <div class="">
+                            <button type="button" (click)="openDialogCreateNewStock()"
+                                class=" "><strong>Create</strong></button>
+                        </div>
+                    </div>
+                    <div class="width100 text-ali-end ">
+                        <button type="button" (click)="closeStockStock()"
+                            class="close-btn margin-using-media"><strong>X</strong></button>
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <table mat-table [dataSource]="dataSourceStock" class="bg">
+
+
+                        <ng-main-container matColumnDef="IiId">
+                            <th mat-header-cell *matHeaderCellDef style="width: 1% !important;"><strong>S.No. </strong>
+                            </th>
+                            <td mat-cell *matCellDef="let element;let i = index" style="visibility: var(false);">
+                                <strong>{{i+1}}</strong>
+                            </td>
+                        </ng-main-container>
+
+
+                        <ng-main-container matColumnDef="iiParticular">
+                            <th mat-header-cell *matHeaderCellDef style="width: 30% !important;"><strong>Particulars
+                                </strong></th>
+                            <td mat-cell *matCellDef="let element;let i=index">
+                                <strong>{{element.iiParticular}}</strong>
+                            </td>
+                        </ng-main-container>
+                        <ng-main-container matColumnDef="iiHsn">
+                            <th mat-header-cell *matHeaderCellDef style="width: 10% !important;"><strong>HSN</strong>
+                            </th>
+                            <td mat-cell *matCellDef="let element;let i=index"> <strong>{{element.iiHsn}}</strong> </td>
+                        </ng-main-container>
+
+
+                        <ng-main-container matColumnDef="iiQty">
+                            <th mat-header-cell *matHeaderCellDef style="width: 8% !important;"><strong> Qty
+                                </strong></th>
+                            <td mat-cell *matCellDef="let element;let i=index"> <strong>{{element.iiQty}}</strong> </td>
+                        </ng-main-container>
+                        <ng-main-container matColumnDef="iiPurchaseAmount">
+                            <th mat-header-cell *matHeaderCellDef style="width: 8% !important;"><strong> Purchase Amount
+                                </strong></th>
+                            <td mat-cell *matCellDef="let element;let i=index">
+                                <strong>{{element.iiPurchaseAmount}}</strong>
+                            </td>
+                        </ng-main-container>
+
+
+                        <ng-main-container matColumnDef="iiSalesAmount">
+                            <th mat-header-cell *matHeaderCellDef style="width: 10% !important;"><strong>Price
+                                </strong></th>
+                            <td mat-cell *matCellDef="let element;let i=index">
+                                <strong>{{element.iiSalesAmount}}</strong>
+                            </td>
+                        </ng-main-container>
+
+
+                        <ng-main-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef style="width: 10% !important;"><strong>Action
+                                </strong></th>
+                            <td mat-cell *matCellDef="let element;">
+                                <i class="fa  fa-pencil-square fa-lg" aria-hidden="true"
+                                    (click)="openDialogUpdateStock(element)"></i>
+
+                            </td>
+                        </ng-main-container>
+
+
+
+                        <tr mat-header-row class="mat-header-row" *matHeaderRowDef="stockColumns"></tr>
+                        <tr mat-row class="mat-row" (click)="clickedRowsStock.add(row)"
+                            [class.demo-row-is-clicked]="clickedRowsStock.has(row)"
+                            *matRowDef="let row; columns: stockColumns;" (click)="selectStockStock()"></tr>
+                    </table>
+                </div>
+
+            </fieldset>
+
+        </div>
+    </div>
+
+
+    <div [style]="subTotal">
+
+        <div class="flex-col  margin-left5px margin-right5px heder-color">
+            <!--  -->
+            <fieldset>
+                <div class="subtotal-flex width100">
+                    <div class="subtotal-flex-1 gap12px">
+                        <div class="flex-row width100">
+                            <div class=""><label for="" class="margin-right5px">Quantity&nbsp;&nbsp;</label></div>
+                            <div class="width100"><input type="text"
+                                    class="width100 bg-transparent border-transparent color-black"
+                                    [(ngModel)]="totalQty" disabled>
+                            </div>
+                        </div>
+                        <div class="flex-row margin-right5px width100">
+                            <div class=""><label for="" class="margin-right5px">Subtotal&nbsp;&nbsp;</label></div>
+                            <div class="width100"> <input type="text"
+                                    class="width100 bg-transparent border-transparent color-black"
+                                    [(ngModel)]="totalAmount" disabled>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="width100 flex-row margin-top5px" [formGroup]="salesVoucherForm">
+                    <div class="flex-col ">
+                        <label for="" class="margin-right5px"><strong>Naration:</strong></label>
+                    </div>
+                    <div class="flex-col width100">
+                        <input type="text" class="width100 naration border-transparent" placeholder="Naration"
+                            formControlName="fieldNaration" aria-label="Username">
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div [style]="taxableTableDisplay" class="margin5px ">
+        <div class="taxable-flex bg overflow-auto width100">
+            <!--  [style]="taxableTableDisplay" -->
+            <fieldset class="width100">
+                <!-- taxable amount table  -->
+                <div>
+                    <table mat-table [dataSource]="dataSourceTaxableTable" class="bg">
+                        <!-- ['productAmount', 'cgstTax', 'cgstAmount', 'sgstTax', 'sgstAmount', 'igstTax', 'igstAmount', 'total'] -->
+                        <ng-main-container matColumnDef="taxableProductName">
+                            <th mat-header-cell *matHeaderCellDef style="width: 55% !important;"><strong>Taxable Value
+                                </strong></th>
+                            <td mat-cell *matCellDef="let element"> <strong>{{element.taxableProductName}}</strong>
+                            </td>
+                        </ng-main-container>
+
+                        <!-- ['productAmount', 'cgstTax', 'cgstAmount', 'sgstTax', 'sgstAmount', 'igstTax', 'igstAmount', 'total'] -->
+                        <ng-main-container matColumnDef="cgstTax">
+                            <th mat-header-cell *matHeaderCellDef style="width: 7% !important;"><strong>C-Tax
+                                </strong></th>
+                            <td mat-cell *matCellDef="let element" id="myId"> <strong>{{element.cgstTax}}</strong> </td>
+                        </ng-main-container>
+
+                        <!-- ['productAmount', 'cgstTax', 'cgstAmount', 'sgstTax', 'sgstAmount', 'igstTax', 'igstAmount', 'total'] -->
+                        <ng-main-container matColumnDef="cgstAmount">
+                            <th mat-header-cell *matHeaderCellDef style="width: 15% !important;"><strong>
+                                    Amount</strong></th>
+                            <td mat-cell *matCellDef="let element" id="myId"> <strong>{{element.cgstAmount}}</strong>
+                            </td>
+                        </ng-main-container>
+
+                        <!-- ['productAmount', 'cgstTax', 'cgstAmount', 'sgstTax', 'sgstAmount', 'igstTax', 'igstAmount', 'total'] -->
+                        <ng-main-container matColumnDef="sgstTax">
+                            <th mat-header-cell *matHeaderCellDef style="width:7% !important;"><strong> S-Tax
+                                </strong></th>
+                            <td mat-cell *matCellDef="let element" id="myId"> <strong>{{element.sgstTax}}</strong> </td>
+                        </ng-main-container>
+
+                        <!-- ['productAmount', 'cgstTax', 'cgstAmount', 'sgstTax', 'sgstAmount', 'igstTax', 'igstAmount', 'total'] -->
+                        <ng-main-container matColumnDef="sgstAmount">
+                            <th mat-header-cell *matHeaderCellDef style="width: 15% !important;"><strong>
+                                    Amount</strong></th>
+                            <td mat-cell *matCellDef="let element" id="myId"> <strong>{{element.sgstAmount}}</strong>
+                            </td>
+                        </ng-main-container>
+
+                        <!-- ['productAmount', 'cgstTax', 'cgstAmount', 'sgstTax', 'sgstAmount', 'igstTax', 'igstAmount', 'total'] -->
+                        <ng-main-container matColumnDef="igstTax">
+                            <th mat-header-cell *matHeaderCellDef style="width:7% !important;"><strong> ITax
+                                </strong></th>
+                            <td mat-cell *matCellDef="let element" id="myId"> <strong>{{element.igstTax}}</strong> </td>
+                        </ng-main-container>
+
+                        <!-- ['productAmount', 'cgstTax', 'cgstAmount', 'sgstTax', 'sgstAmount', 'igstTax', 'igstAmount', 'total'] -->
+                        <ng-main-container matColumnDef="igstAmount">
+                            <th mat-header-cell *matHeaderCellDef style="width: 15% !important;"><strong>Amount</strong>
+                            </th>
+                            <td mat-cell *matCellDef="let element" id="myId"> <strong>{{element.igstAmount}}</strong>
+                            </td>
+                        </ng-main-container>
+                        <!-- ['productAmount', 'cgstTax', 'cgstAmount', 'sgstTax', 'sgstAmount', 'igstTax', 'igstAmount', 'total'] -->
+                        <ng-main-container matColumnDef="total">
+                            <th mat-header-cell *matHeaderCellDef style="width: 15% !important;"><strong>
+                                    Total</strong></th>
+                            <td mat-cell *matCellDef="let element" id="myId"> <strong>{{element.total}}</strong> </td>
+                        </ng-main-container>
+
+                        <tr mat-header-row class="mat-header-row" *matHeaderRowDef="taxableColumns"></tr>
+                        <tr mat-row class="mat-row" (click)="clickedRowsSubtotal.add(row)"
+                            [class.demo-row-is-clicked]="clickedRowsSubtotal.has(row)"
+                            *matRowDef="let row; columns: taxableColumns;"></tr>
+                    </table>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+
+    <div class="flex-col bg margin5px">
+        <fieldset class="width100">
+            <legend><strong>Extra Charges Area!</strong></legend>
+            <div class="extra-charges-flex gap10px">
+                <div class="width100 flex-clo gap10px">
+                    <div class="margin-right5px">
+                        <label for="extAmount"><strong>Extra&nbsp;Charges&nbsp;Amount:</strong></label>
+                    </div>
+                    <div class="width100">
+                        <input type="text" id="extAmount" placeholder="0.0" class="inputtext100">
+                    </div>
+                </div>
+                <div class="width100 flex-clo gap10px">
+                    <div class="margin-right5px">
+                        <label for="extDescription"> <strong>Description:</strong></label>
+                    </div>
+                    <div class="width100">
+                        <input type="text" id="extDescription" placeholder="transpotation charge!" class="inputtext100">
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div>
+            <!-- extra charges and submit area -->
+            <fieldset [formGroup]="salesVoucherForm" class="width100">
+
+                <legend><strong> Transaction Area!</strong></legend>
+                <div class="extra-charges-flex gap10px">
+                    <div class="width100 flex-clo gap10px">
+                        <div class="margin-right5px">
+                            <label for="extAmount"><strong>Payable&nbsp;Amount&nbsp;: </strong></label>
+                        </div>
+                        <div class="width100">
+                            <input formControlName="transactionAmount" type="text" id="extAmount" placeholder="0.0"
+                                [(ngModel)]="payableAmount" class="inputtext100">
+                        </div>
+                    </div>
+                    <div class="width100 flex-clo gap10px">
+                        <div class="margin-right5px">
+                            <label for="extDescription"> <strong>Transaction&nbsp;By&nbsp;:</strong></label>
+                        </div>
+                        <div class="width100">
+                            <select id="transactionMode" formControlName="transactionalAccount" (change)="isEmi()"
+                                class="select100">
+                                <option *ngFor="let list of accountList; let i = index" value={{list.accountName}}>
+                                    {{list.accountName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+    </div>
+
+
+
+
+    <!-- Emi and Service Implements -->
+    <div class="bg flex-col margin-top5px margin-left5px margin-right5px ">
+
+        <div [style]="emiTableDisplay">
+            <div class="emi-pro-flex gap12px  margin10px" [formGroup]="emiForm">
+                <div class="flex-row width100 gap10px">
+                    <div class="width100 flex-clo gap10px">
+                        <div>
+                            <label class="label100" for="emiProcessingFee"><strong>Emi Processiong Fee. :</strong>
+                            </label>
+                        </div>
+                        <div>
+                            <input class="inputtext100" id="emiProcessingFee" formControlName="emiProcessingFee"
+                                name="emiProcessingFee" type="text" required [(ngModel)]="emiProcessingFee" />
+                        </div>
+                    </div>
+                    <div class="width100 flex-clo gap10px">
+                        <div>
+                            <label class="label100" for="downPaymet"><strong>Down Payment. :</strong> </label>
+                        </div>
+                        <div>
+                            <input class="inputtext100" id="downPaymet" formControlName="downPaymet" name="downPaymet"
+                                type="text" required [(ngModel)]="downPaymet" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-row width100 gap10px">
+                    <div class="width100 flex-clo gap10px">
+                        <div>
+                            <label class="label100" for="installmentRangeNumber"><strong>Inatallment Range. :</strong>
+                            </label>
+                        </div>
+                        <div>
+                            <input class="inputnumber100" id="installmentRangeNumber"
+                                formControlName="installmentRangeNumber" name="installmentRangeNumber" type="number"
+                                (keyup)="isEmi()" [(ngModel)]="installmentRangeNumber" min="1" max="100" required />
+                        </div>
+                    </div>
+                    <div class="width100 flex-clo gap10px">
+                        <div>
+                            <label class="label100" for="installmentAmount"><strong>Inatallment Amount. :</strong>
+                            </label>
+                        </div>
+                        <div>
+                            <input class="inputtext100" id="installmentAmount" formControlName="installmentAmount"
+                                name="installmentAmount" type="text" required readonly
+                                [(ngModel)]="installmentAmount" />
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-row customwidth gap10px">
+                    <div class="width100 flex-clo gap10px">
+                        <div>
+                            <label class="label100"
+                                for="installmentDate"><strong>Starting&nbsp;Inatallment&nbsp;Date.&nbsp;:&nbsp;</strong>
+                            </label>
+                        </div>
+                        <div>
+                            <input class="inputdate100" id="installmentDate" formControlName="installmentDate"
+                                name="installmentDate" type="date" required
+                                [ngModel]="currentDate | date:'yyyy-MM-dd'" />
+                        </div>
+                    </div>
+                    <div class=" isvisible width100 flex-clo gap10px">
+                        <div>
+                            <label></label>
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <br>
+    </div>
+    <div class="flex-emi-serv margin5px bg gap10px overflow-auto">
+        <div [style]="emiTableDisplay" class="width100 overflow-auto">
+            
+                <fieldset>
+                    <legend >Emi In Details</legend>
+                    <table mat-table [dataSource]="dataSourceEmiTable" >
+                        <!-- emiColumns = ['emiNo', 'emiDate', 'emiAmount', 'emiMessage'];      -->
+                        <ng-main-container matColumnDef="emiNo">
+                            <th mat-header-cell *matHeaderCellDef><strong>S/No.
+                                </strong></th>
+                            <td mat-cell *matCellDef="let element"> <strong>{{element.emiNo}}</strong>
+                            </td>
+                        </ng-main-container>
+
+                        <!-- emiColumns = ['emiNo', 'emiDate', 'emiAmount', 'emiMessage'];      -->
+                        <ng-main-container matColumnDef="emiDate">
+                            <th mat-header-cell *matHeaderCellDef><strong>Date
+                                </strong></th>
+                            <td mat-cell *matCellDef="let element"> <input id="emiDate" name="emiDate" type="date"
+                                    [(ngModel)]="element.emiDate" required />
+                            </td>
+                        </ng-main-container>
+
+                        <!-- emiColumns = ['emiNo', 'emiDate', 'emiAmount', 'emiMessage'];      -->
+                        <ng-main-container matColumnDef="emiAmount">
+                            <th mat-header-cell *matHeaderCellDef><strong>
+                                    Amount</strong></th>
+                            <td mat-cell *matCellDef="let element"> <strong>{{element.emiAmount}}</strong>
+                            </td>
+                        </ng-main-container>
+
+                        <!-- emiColumns = ['emiNo', 'emiDate', 'emiAmount', 'emiMessage'];      -->
+                        <ng-main-container matColumnDef="emiMessage">
+                            <th mat-header-cell *matHeaderCellDef><strong>Message
+                                </strong></th>
+                            <td mat-cell *matCellDef="let element"> <strong>
+                                    <input type="text" id="emiMessage" name="emiMessage" value={{element.emiMessage}}>
+                                </strong>
+                            </td>
+                        </ng-main-container>
+                        <tr mat-header-row class="mat-header-row" *matHeaderRowDef="emiColumns"></tr>
+                        <tr mat-row class="mat-row" (click)="clickedRowsEmi.add(row)"
+                            [class.demo-row-is-clicked]="clickedRowsEmi.has(row)"
+                            *matRowDef="let row; columns: emiColumns;"></tr>
+                    </table>
+                </fieldset>
+            
+
+        </div>
+
+        <div [style]="serviceTableDisplay" class="width100 overflow-auto ">
+         
+                <fieldset>
+                    <legend>Service In Details</legend>
+                    <table mat-table [dataSource]="dataSourceServiceTable">
+                        <!-- serviceColumns = ['serviceNo', 'serviceDate', 'serviceEngineer', 'serviceMessage']; -->
+                        <ng-main-container matColumnDef="psNo">
+                            <th mat-header-cell *matHeaderCellDef><strong>S/No.
+                                </strong></th>
+                            <td mat-cell *matCellDef="let element"> <strong>{{element.psNo}}</strong>
+                            </td>
+                        </ng-main-container>
+                        <!-- serviceColumns = ['serviceNo', 'serviceDate', 'serviceEngineer', 'serviceMessage']; -->
+
+                        <ng-main-container matColumnDef="psDate">
+                            <th mat-header-cell *matHeaderCellDef><strong>Date
+                                </strong></th>
+                            <td mat-cell *matCellDef="let element"> <input id="psDate" name="psDate" type="date"
+                                    [(ngModel)]="element.psDate" required />
+                            </td>
+                        </ng-main-container>
+                        <!-- serviceColumns = ['serviceNo', 'serviceDate', 'serviceEngineer', 'serviceMessage']; -->
+                        <ng-main-container matColumnDef="psEngineerName">
+                            <th mat-header-cell *matHeaderCellDef><strong>
+                                    Service By </strong></th>
+                            <td mat-cell *matCellDef="let element;let row_index = index;">
+                                <select [(ngModel)]="element.psEngineerName" id="psEngineerName" name="psEngineerName">
+                                    <option value="">--</option>
+                                    <option *ngFor="let list of employee; let i = index" [value]='list.accountName'>
+                                        {{list.accountName}}
+                                    </option>
+                                </select>
+                            </td>
+                        </ng-main-container>
+
+                        <ng-main-container matColumnDef="psMessage">
+                            <th mat-header-cell *matHeaderCellDef><strong>Message
+                                </strong></th>
+                            <td mat-cell *matCellDef="let element"> <strong>
+                                    <input type="text" id="psMessage" name="psMessage" value={{element.psMessage}}>
+                                </strong>
+                            </td>
+                        </ng-main-container>
+                        <tr mat-header-row class="mat-header-row " *matHeaderRowDef="serviceColumns"></tr>
+                        <tr mat-row class="mat-row " (click)="clickedRowsService.add(row)"
+                            [class.demo-row-is-clicked]="clickedRowsService.has(row)"
+                            *matRowDef="let row; columns: serviceColumns;"></tr>
+                    </table>
+
+                </fieldset>
+      
+
+        </div>
+
+
+    </div>
+    <div class="flex-col bg margin5px">
+        <fieldset>
+            <div [style]="addStockbtn" class="margin-top5px margin-btn5px stock-add width100">
+                <!--  [style]="addStockbtn" -->
+                <button type="button" class="stock-add-btn width100" (click)="createSales()"><strong>SAVE</strong>
+                </button>
+            </div>
+        </fieldset>
+    </div>
+
+
+</main>

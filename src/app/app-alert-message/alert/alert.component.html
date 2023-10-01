@@ -1,0 +1,17 @@
+<body>
+    <header ngClass="heared-hght">
+        <div ngClass="flex-row jus-con-between width100">
+            <div ngClass="width100 flex-col ali-item-start">
+                <h1>Alert!</h1>
+            </div>
+            <div ngClass="width100 flex-col ali-item-end">
+                <button type="button" (click)="dialogClose()" class="close-btn">X</button>
+            </div>
+        </div>
+    </header>
+
+    <div ngClass="margin5px border-solid-05-gray bg-color">
+        <p>{{alert_text1}}</p>
+        <p>{{alert_text2}}</p>
+    </div>
+</body>

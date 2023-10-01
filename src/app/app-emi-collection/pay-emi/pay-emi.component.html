@@ -1,0 +1,70 @@
+<main ngClass="">
+
+    <header>
+        <button type="button" class="close-btn"><span (click)="dialogClose()">X</span></button>
+    </header>
+  <div ngClass="width100 bg margin5px">
+    <fieldset >
+        <legend> EMI Pay Works!</legend>
+        <div [formGroup]="receivedEmi" ngClass="bg flex-col ali-item-center">
+            <div ngClass="flex-col width50 ">
+                <div>
+                    <label for="emiId">Emi-Id:</label>
+                </div>
+                <div >
+                    <input ngClass="inputtext100" type="text" id="emiId" name="emiId" formControlName="emiId"
+                        readonly="true">
+                </div>
+            </div>
+            <div ngClass="flex-col width50 ">
+                <div >
+                    <label for="transactionalDate">Transactional Date:</label>
+                </div>
+                <div >
+                    <input ngClass="inputdate100" type="date" id="transactionalDate" name="transactionalDate"
+                        formControlName="transactionDate">
+                </div>
+            </div>
+            <div ngClass="flex-col width50 ">
+                <div >
+                    <label for="emiAmount">Emi Amount:</label>
+                </div>
+                <div >
+                    <input ngClass="inputnumber100" type="number" id="emiAmount" name="emiAmount"
+                        formControlName="emiAmount" readonly="true">
+                </div>
+            </div>
+            <div ngClass="flex-col width50 ">
+                <div >
+                    <label for="transactionalAc"> <strong> Transaction By :</strong>
+                    </label>
+                </div>
+                <div >
+                    <select ngClass="select100" id="transactionalAc" formControlName="transactionAccount">
+                        <option *ngFor="let list of accountList; let i = index" value={{list.accountName}}>
+                            {{list.accountName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div ngClass="flex-col width50 ">
+                <div >
+                    <label for="narration">Narration:</label>
+                </div>
+                <div >
+                    <input ngClass="inputtext100" id="narration" type="text" name="narration" formControlName="narration" />
+                </div>
+            </div>
+            <div ngClass="flex-col width50 ">
+                <div>
+                    <label for="">&nbsp;</label>
+                </div>
+                <div>
+                    <button type="button" (click)="payEmi()" ngClass="button100 btn-hight1-6rem bg-blue outline-transparent border-transparent cursore-pointer color-white">Pay</button>
+                </div>
+                <br>
+            </div>
+    
+        </div>
+       </fieldset>
+  </div>
+</main>

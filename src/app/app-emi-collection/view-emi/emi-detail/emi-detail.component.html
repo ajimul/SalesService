@@ -1,0 +1,38 @@
+<main>
+    <header>
+      <button type="button" (click)="dialogClose()"class="close-btn">X</button>
+  
+    </header>
+    <div>
+        <div class="custom-sticky bg">
+
+            <fieldset>
+                <legend>Party Details</legend>
+                <p>Party Name:<span><strong>&nbsp;{{accountName}}</strong></span></p>
+                <p>Billing Address:<span><strong>&nbsp;{{partyBillingAddress}}</strong></span></p>
+                <p>Shiping Address:<span><strong>&nbsp;{{partyShipingAddress}}</strong></span></p>
+                <p>Contact
+                    No.:<span><strong>&nbsp;{{partyContactNo1}}&nbsp;/&nbsp;{{partyContactNo2}}</strong></span>
+                </p>
+                <p>Email Id:<span><strong>&nbsp;{{partyEmailId}}</strong></span></p>
+            </fieldset>
+            <!-- <fieldset>
+                <legend>Purchase Details</legend>
+                <p>Particular Name:<span><strong>&nbsp;</strong></span></p>
+                <p>Quantity:<span><strong>&nbsp;&nbsp;</strong></span>
+                </p>
+            </fieldset> -->
+            <fieldset>
+                <legend>Emi Details</legend>
+                <!-- <p>Total Tax =<span><strong>&nbsp;INR</strong></span></p>
+                <p>Total Amount =<span><strong>&nbsp;INR </strong></span></p> -->
+                <!-- <p>Total No.Of Emi <span><strong>{{totalPaidEmi}}-{{emiNo}}</strong></span></p> -->
+                <p>Total No.Of Emi <span><strong>{{totalPaidEmi}}&nbsp;of&nbsp;{{totalEmi}}</strong></span></p>
+                <p >Total Due Amount = <span><strong *ngIf="dueAmountHighlighter()" [style]="dueHighlighter">INR
+                    {{ totalDue}}.00</strong></span>
+                </p>
+            </fieldset>
+        </div>
+    </div>
+   
+</main>

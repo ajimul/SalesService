@@ -1,0 +1,96 @@
+<main>
+  <header>
+    <button type="button" (click)="dialogClose()" class="close-btn">X</button>
+
+  </header>
+
+  <form [formGroup]="employeeForm" (ngSubmit)="formSubmit()">
+    <fieldset class="fieldset-root">
+      <legend>Add Employee</legend>
+
+      <div class="bg">
+        <fieldset class="fieldset-group">
+          <legend>Personal Details</legend>
+
+          <label for="name" id="labelName"><span id="name-span">* </span>Name:
+            <input id="name" name="name" type="text" formControlName="accountName" />
+          </label>
+          <span *ngIf="nameValid()"></span>
+
+          <label for="dob">Date Of Birth: <input type="date" id="dob" name="dob" formControlName="empDob"
+              [ngModel]="date| date:'yyyy-MM-dd'"></label>
+
+          <label for="blood">Blood Group: <input type="text" id="blood" name="blood"
+              formControlName="empBloodGroup"></label>
+
+          <label for="aadharNo">Aadhar No.: <input type="text" id="aadharNo" name="aadharNo"
+              formControlName="empAadharNo"></label>
+
+          <label for="panNo">Pan Card No.: <input type="text" id="panNo" name="panNo"
+              formControlName="empPanNo"></label>
+
+          <label for="mobile1" id="labelMobile1"><span id="mobile1-span">* </span>Contact No 1:
+            <input id="mobile1" name="mobile1" type="text" formControlName="empContactNo1" /></label>
+           
+            <span *ngIf="mobileNoValidator()"></span>
+
+          <label for="mobile2">Contact No 2:
+            <input id="mobile2" name="mobile2" type="text" formControlName="empContactNo2" /></label>
+
+
+          <label for="email">E-mail Id:
+            <input id="email" name="email" type="text" formControlName="empEmailId" 
+              value="ajay933Jpg@gmail.com" /></label>
+        </fieldset>
+
+      </div>
+      <div class="bg">
+
+        <fieldset class="fieldset-group">
+          <legend>Address Details</legend>
+
+          <div class="billing-add">
+            <div>
+              <label for="bilAdd1">Permanent&nbsp;Address:</label>
+            </div>
+
+            <textarea id="bbilAdd1" name="bilAdd1" formControlName="empBillingAddress"  rows="4" cols="32">
+            </textarea>
+          </div>
+
+          <div class="shiping-add">
+
+            <div class="same-add">
+              <label for="bilAdd2">Present&nbsp;Address:&nbsp;Same&nbsp;As&nbsp;Permanent</label>
+              <input type="checkbox" id="sameAddress" class="checkbox" (change)="sameAddress($event)">
+            </div>
+            <textarea id="bilAdd2" name="bilAdd2" formControlName="empShipingAddress"  rows="4"
+              cols="32"></textarea>
+          </div>
+
+        </fieldset>
+
+        <fieldset class="fieldset-group">
+          <legend>Job Description</legend>
+
+          <label for="jobDesignation">Job Designation: <input type="text" id="jobDesignation" name="jobDesignation"
+              formControlName="empJobeDesignation">
+          </label>
+
+          <label for="joiningDate">Joining Date:<input type="date" id="joiningDate" name="joiningDate"
+              formControlName="empJoiningDate" [ngModel]="date| date:'yyyy-MM-dd'">
+          </label>
+
+          <label for="salaryPackage">Salary Package: <input type="text" id="salaryPackage" name="salaryPackage"
+              formControlName="empSalaryPackage">
+          </label>
+        </fieldset>
+
+        <div class="submit-btn">
+          <button type="button" (click)="formSubmit()">Create</button>
+        </div><br><br>
+
+      </div>
+    </fieldset>
+  </form>
+</main>

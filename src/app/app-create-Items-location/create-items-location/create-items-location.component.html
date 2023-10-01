@@ -1,0 +1,28 @@
+
+<main>
+    <header>
+        <button type="button" mat-dialog-close='false'>X</button>
+
+    </header>
+
+    <div>
+        <form [formGroup]="itemsLocation" (ngSubmit)="formSubmit()" >
+            <fieldset class="fieldset-root">
+                <legend >Items Location Create Work!</legend>
+                <div class="bg">
+                    <fieldset class="fieldset-group">
+                    <legend >Items Location Details</legend>
+                    <label for="itemsLocationName">Enter Location Name:
+                        <input type="text" id="itemsLocationName" name="itemsLocationName" formControlName="locationName">
+                    </label>
+                    
+                    <div class="submit-btn">
+                        <br>
+                        <button type="button" (click)="formSubmit()">Create</button>
+                    </div>
+                </fieldset>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</main> 

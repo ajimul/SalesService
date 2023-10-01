@@ -1,0 +1,139 @@
+<main>
+    <header>
+        <button type="button" mat-dialog-close='false'class="close-btn">X</button>
+
+    </header>
+    <div>
+        <form [formGroup]="formInventory" (ngSubmit)="formSubmit()">
+            <fieldset class="fieldset-root">
+                <legend>Update Stock</legend>
+
+                <div class="bg">
+                    <fieldset class="fieldset-group">
+                        <legend>Stock details</legend>
+
+                        <label for="inventoryItemsParticular" id="label-stockName">
+                            <span id="stockName-span">*</span>Stock Description:
+                            <input class="boarder-bottom boarder-roun" id="inventoryItemsParticular" name="iiParticular"
+                                type="text" formControlName="iiParticular"   />
+                        </label>
+                        <span *ngIf="stockNameValidator()"></span>
+
+
+                        <label for="inventoryItemsHsn">HSN:
+                            <input class="boarder-bottom boarder-roun" id="inventoryItemsHsn" name="igName" type="text"
+                                formControlName="iiHsn"  /></label>
+
+
+                        <label for="inventoryItemsModelNo">Model No:
+                            <input class="boarder-bottom boarder-roun" id="inventoryItemsModelNo" name="iiModelNo"
+                                type="text" formControlName="iiModelNo"  /></label>
+
+
+
+                        <label for="inventoryItemsQty">Quantity:
+                            <input class="boarder-bottom boarder-roun" id="inventoryItemsQty" name="inventoryItemsQty"
+                                type="number" formControlName="iiQty" required value="0" [readOnly]="true" /></label>
+
+                        <div style="display: flex;flex-direction: column;margin: 5px;
+                        min-width: 32.1%;">
+                            <div>
+                                <label for="itemUnit" id="label-unit"><span id="unit-span">*</span>Select Unit:</label>
+                            </div>
+                            <div>
+                                <select id="itemUnit" name="iiUnitName" formControlName="iiUnitName"
+                                    style="min-width: 100%;height: 22px;">
+                                    <option value="Pcs">Pcs</option>
+                                </select>
+                            </div>
+                            <span *ngIf="unitValidator()"></span>
+                        </div>
+
+
+
+                    </fieldset>
+                </div>
+
+                <div class="bg">
+                    <fieldset class="fieldset-group">
+                        <legend>Trading Details</legend>
+                        <label for="inventoryItemsMrp" id="label-mrp"><span id="mrp-span">*</span>MRP:
+                            <input class="boarder-bottom boarder-roun" id="inventoryItemsMrp" name="inventoryItemsMrp"
+                                type="number" formControlName="iiMrp" required value="0.0" /></label>
+                        <span *ngIf="mrpValidator()"></span>
+
+
+                        <label for="inventoryItemsPurchaseAmount" id="label-purchasePrice"><span
+                                id="purchasePrice-span">*</span>P-Price:
+                            <input class="boarder-bottom boarder-roun" id="inventoryItemsPurchaseAmount"
+                                name="inventoryItemsPurchaseAmount" type="number" formControlName="iiPurchaseAmount"
+                                required value="0.0" /></label>
+                        <span *ngIf="purchasePriceValidator()"></span>
+
+
+                        <label for="inventoryItemsSalesAmount" id="label-salesPrice"><span
+                                id="salesPrice-span">*</span>S-Price:
+                            <input class="boarder-bottom boarder-roun" id="inventoryItemsSalesAmount"
+                                name="inventoryItemsSalesAmount" type="number" formControlName="iiSalesAmount" required
+                                value="0.0" /></label>
+                        <span *ngIf="salesPriceValidator()"></span>
+
+
+
+                        <label for="inventoryItemsCgstPercent" id="label-cgst"><span id="cgst-span">*</span>CGST:
+                            <input class="boarder-bottom boarder-roun" id="inventoryItemsCgstPercent"
+                                name="inventoryItemsCgstPercent" type="number" formControlName="iiCgstPercent" required
+                                placeholder="18%" /></label>
+                        <span *ngIf="cgstValidator()"></span>
+
+
+
+                        <label for="inventoryItemsSgstPercent" id="label-sgst"><span id="sgst-span">*</span>SGST:
+                            <input class="boarder-bottom boarder-roun" id="inventoryItemsSgstPercent"
+                                name="inventoryItemsSgstPercent" type="number" formControlName="iiSgstPercent" required
+                                placeholder="18%" /></label>
+                        <span *ngIf="sgstValidator()"></span>
+
+                        <label for="inventoryItemsIgstPercent" id="label-igst"><span id="igst-span">*</span>IGST:
+                            <input class="boarder-bottom boarder-roun" id="inventoryItemsIgstPercent"
+                                name="inventoryItemsIgstPercent" type="number" formControlName="iiIgstPercent" required
+                                placeholder="18%" /></label>
+                        <span *ngIf="igstValidator()"></span>
+
+                        <label for="inventoryItemsTDPercent" id="label-td"><span id="td-span">*</span>Trade Discount
+                            Percent:
+                            <input class="boarder-bottom boarder-roun" id="inventoryItemsTDPercent"
+                                name="inventoryItemsTDPercent" type="number" formControlName="iiTDPercent" required
+                                placeholder="18%" /></label>
+                        <span *ngIf="tdDiscountValidator()"></span>
+
+
+                    </fieldset>
+                </div>
+
+                <div class="bg">
+                    <fieldset class="fieldset-group">
+                        <legend>Warranty & Service Details</legend>
+
+                        <label for="iiMonthOfWarranty" id="label-warranty"> <span id="warranty-span">*</span>Select
+                            Month Of Warranty:
+                            <input type="number" id="iiMonthOfWarranty" name="iiMonthOfWarranty"
+                                formControlName="iiMonthOfWarranty" min="0" max="100"></label>
+                        <span *ngIf="warrantyValidator()"></span>
+
+                        <label for="iiNoOfService" id="label-service"><span id="service-span">*</span>Select No. Of Free
+                            Service:
+                            <input type="number" id="iiNoOfService" name="iiNoOfService" formControlName="iiNoOfService"
+                                min="0" max="100"></label>
+                        <span *ngIf="serviceValidator()"></span>
+                    </fieldset>
+                    <div class="submit-btn">
+                        <button type="button" (click)="formSubmit()">Update</button>
+                    </div><br><br>
+                </div>
+
+
+            </fieldset>
+        </form>
+    </div>
+</main>

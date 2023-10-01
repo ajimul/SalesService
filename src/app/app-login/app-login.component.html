@@ -1,0 +1,21 @@
+  <body>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form [formGroup]="loginform" (ngSubmit)="Proceedlogin()">
+          <div class="form-group">
+            <label for="username">Enter User Name</label>
+            <input type="text" formControlName="username" id="username" name="username"  required>
+        </div>
+        <div class="form-group">
+            <label for="password">Enter Password</label>
+            <input type="password" formControlName="password" id="password" name="password"  required>
+        </div>
+        <div class="form-group">
+            <button type="submit">Login</button>
+        </div>
+    </form>
+</div>
+<!-- <div>
+  <button (click)="CrosTest()">TestOrigin</button>
+</div> -->
+</body>

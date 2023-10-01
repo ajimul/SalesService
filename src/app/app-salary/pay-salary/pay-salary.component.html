@@ -1,0 +1,78 @@
+<main ngClass="">
+
+    <header>
+        
+    </header>
+    <div ngClass="width100 bg margin5px">
+        <fieldset>
+            <legend> EMI Pay Works!</legend>
+           <form [formGroup]="paySalary" (ngSubmit)="payEmi()">
+            <div ngClass="bg flex-col ali-item-center">
+                <div ngClass="flex-col width50 ">
+                    <div>
+                        <label for="emiId">Select Employee Name:</label>
+                    </div>
+                    <div>
+                        <select ngClass="select100" id="transactionalAc" formControlName="employeeAcName"
+                            [(ngModel)]="accountId">
+                            <option *ngFor="let list of employeeList; let i = index" value={{list.accountName}}
+                                [ngValue]="list.accountId">
+                                {{list.accountName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div ngClass="flex-col width50 ">
+                    <div>
+                        <label for="transactionalDate">Transactional Date:</label>
+                    </div>
+                    <div>
+                        <input ngClass="inputdate100" type="date" id="transactionalDate" name="transactionalDate"
+                            formControlName="transactionDate">
+                    </div>
+                </div>
+                <div ngClass="flex-col width50 ">
+                    <div>
+                        <label for="salaryAmount">Salry Amount:</label>
+                    </div>
+                    <div>
+                        <input ngClass="inputnumber100" type="number" id="salaryAmount" name="salaryAmount"
+                            formControlName="salaryAmount" >
+                    </div>
+                </div>
+                <div ngClass="flex-col width50 ">
+                    <div>
+                        <label for="transactionalAc"> <strong> Transaction By :</strong>
+                        </label>
+                    </div>
+                    <div>
+                        <select ngClass="select100" id="transactionalAc" formControlName="transactionAccount">
+                            <option *ngFor="let list of accountList; let i = index" value={{list.accountName}}>
+                                {{list.accountName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div ngClass="flex-col width50 ">
+                    <div>
+                        <label for="narration">Narration:</label>
+                    </div>
+                    <div>
+                        <input ngClass="inputtext100" id="narration" type="text" name="narration"
+                            formControlName="narration" />
+                    </div>
+                </div>
+                <div ngClass="flex-col width50 ">
+                    <div>
+                        <label for="">&nbsp;</label>
+                    </div>
+                    <div >
+                        <button type="button" (click)="payEmi()"
+                            ngClass="button100 btn-hight1-6rem bg-blue outline-transparent border-transparent cursore-pointer color-white ">Pay</button>
+                    </div>
+                    <br>
+                </div>
+
+            </div>
+        </form>
+        </fieldset>
+    </div>
+</main>

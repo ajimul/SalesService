@@ -1,0 +1,86 @@
+<main>
+
+    <header class="bg">
+        <div>
+            <p>Add Party Works!</p>
+        </div>
+
+    </header>
+    <!-- party table-->
+    <div class="container bg">
+
+        <div class="action-container">
+            <div class="search-bar">
+                <input type="text" class="search-field" type="text" (keyup)="searchingPartyEvent($event)"
+                    [(ngModel)]="searchingParty" placeholder="Search by party name mobile no email-id">
+            </div>
+            <div class="create-party">
+                <button type="button" (click)="openDialogCreateNewPartyAccount()" class="create-btn">
+                    <strong>Create&nbsp;New</strong></button>
+            </div>
+        </div>
+        <div>
+            <hr>
+        </div>
+
+        
+        <table mat-table matSort [dataSource]="dataSourcePartyAccounts" class="tbl-party bg">
+            <ng-main-container matColumnDef="accountId">
+                <th class="party-id" *matHeaderCellDef></th>
+                <td class="party-id" mat-cell *matCellDef="let element;let i = index">
+                </td>
+            </ng-main-container>
+            <ng-main-container matColumnDef="accountName">
+                <th mat-header-cell *matHeaderCellDef><strong><strong>Party Name</strong></strong></th>
+                <td mat-cell *matCellDef="let element;let i = index">
+                    <strong>{{element.accountName}}</strong>
+                </td>
+            </ng-main-container>
+
+            <ng-main-container matColumnDef="partyContactNo1">
+                <th mat-header-cell *matHeaderCellDef><strong> Mobile No.
+                    </strong></th>
+                <td mat-cell *matCellDef="let element"> <strong>{{element.partyContactNo1}}</strong>
+                </td>
+            </ng-main-container>
+            <ng-main-container matColumnDef="partyEmailId">
+                <th mat-header-cell *matHeaderCellDef><strong> Email</strong></th>
+                <td mat-cell *matCellDef="let element"> <strong>{{element.partyEmailId}}</strong>
+                </td>
+            </ng-main-container>
+            <ng-main-container matColumnDef="partyBillingAddress">
+                <th mat-header-cell *matHeaderCellDef>
+                    <strong> Billing From</strong>
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    <strong>{{element.partyBillingAddress}}</strong>
+                </td>
+            </ng-main-container>
+            <ng-main-container matColumnDef="partyShipingAddress">
+                <th mat-header-cell *matHeaderCellDef>
+                    <strong> Billing From
+                    </strong>
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    <strong>{{element.partyShipingAddress}}</strong>
+                </td>
+            </ng-main-container>
+            <ng-main-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef><strong>Action
+                    </strong></th>
+                <td mat-cell *matCellDef="let element;">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <i class="fa  fa-pencil-square fa-lg" aria-hidden="true"
+                        (click)="openDialogUpdatePartyAccountsAccount(element)"></i>
+                </td>
+            </ng-main-container>
+
+            <tr mat-header-row *matHeaderRowDef="partyColumns"></tr>
+            <tr mat-row (click)="clickedRowsPartyAccounts.add(row)"
+                [class.demo-row-is-clicked]="clickedRowsPartyAccounts.has(row)"
+                *matRowDef="let row; columns: partyColumns;">
+            </tr>
+        </table>
+    </div>
+</main>
+<!-- end party table-->

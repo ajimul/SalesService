@@ -1,0 +1,114 @@
+<main>
+    <header class="bg">
+        <div>
+            <p>Service Controll Works!</p>
+        </div>
+        <div class="flex-col width100">
+            <div class=" flex-col margin-top5px">
+                <input type="text" class="search-field" type="text" (keyup)="searchingPartyEvent($event)"
+                    [(ngModel)]="searchingParty" placeholder="Search by name date amount">
+            </div>
+            <br>
+            <hr>
+        </div>
+    </header>
+    <div class="flex-col bg margin5px  overflow-auto">
+        <div class="flex-col width100">
+            <table mat-table matSort [dataSource]="productServiceControlDataSource">
+                <ng-main-container matColumnDef="partyName">
+                    <th mat-header-cell *matHeaderCellDef>Party Name</th>
+                    <td mat-cell *matCellDef="let element;let i = index">
+                        {{element.accountName}}
+                    </td>
+                </ng-main-container>
+                <!-- productServiceControl = ['partyName', 'psNo', 'psEngineerName','psMessage', 'psStatus','psSmsStatus', 'psDate', 'action']; -->
+
+                <ng-main-container matColumnDef="psNo">
+                    <th mat-header-cell *matHeaderCellDef><strong><strong>Product-No</strong></strong></th>
+                    <td mat-cell *matCellDef="let element;let i = index">
+                        <strong>{{element.psNo}}</strong>
+                    </td>
+                </ng-main-container>
+                <!-- productServiceControl = ['partyName', 'psNo', 'psEngineerName','psMessage', 'psStatus','psSmsStatus', 'psDate', 'action']; -->
+
+                <ng-main-container matColumnDef="psEngineerName">
+                    <th mat-header-cell *matHeaderCellDef><strong> Service By
+                        </strong></th>
+
+                    <td mat-cell *matCellDef="let element;let row_index = index;">
+                        <select [(ngModel)]="element.psEngineerName" id="psEngineerName" name="psEngineerName">
+                            <option value="">--</option>
+                            <option *ngFor="let list of employee; let i = index" [value]='list.accountName'>
+                                {{list.accountName}}
+                            </option>
+                        </select>
+                    </td>
+
+                </ng-main-container>
+                <!-- productServiceControl = ['partyName', 'psNo', 'psEngineerName','psMessage', 'psStatus','psSmsStatus', 'psDate', 'action']; -->
+
+                <ng-main-container matColumnDef="psMessage">
+                    <th mat-header-cell *matHeaderCellDef><strong>Text Message</strong></th>
+                    <td mat-cell *matCellDef="let element"><input placeholder="Name" [value]="element.psMessage"
+                            [(ngModel)]="element.psMessage">
+
+                    </td>
+                </ng-main-container>
+                <!-- productServiceControl = ['partyName', 'psNo', 'psEngineerName','psMessage', 'psStatus','psSmsStatus', 'psDate', 'action']; -->
+
+                <ng-main-container matColumnDef="psStatus">
+                    <th mat-header-cell *matHeaderCellDef><strong>Current Status</strong></th>
+                    <td mat-cell *matCellDef="let element"> <strong
+                            [style.color]="element.psStatus==='Pending'? 'red' : 'rgb(44, 190, 0)'">{{element.psStatus}}</strong>
+                    </td>
+                </ng-main-container>
+                <!-- productServiceControl = ['partyName', 'psNo', 'psEngineerName','psMessage', 'psStatus','psSmsStatus', 'psDate', 'action']; -->
+
+                <ng-main-container matColumnDef="psSmsStatus">
+                    <th mat-header-cell *matHeaderCellDef><strong>SMS Status</strong></th>
+                    <td mat-cell *matCellDef="let element">
+                        <ng-container>
+                            <select name="" id="" [(ngModel)]="element.psSmsStatus">
+                                <option *ngIf="element.psSmsStatus then thenBlock;else elseBlock"
+                                    [value]="element.psSmsStatus"></option>
+                                <!-- <option [value]='false'><span>Desable</span></option>
+                        <option [value]='true'><span>Enable</span></option> -->
+                            </select>
+                            <ng-template #thenBlock>
+                                <option [value]="element.psSmsStatus" selected><span>Enable</span> </option>
+                                <option [value]='false'><span>Desable</span></option>
+                            </ng-template>
+                            <ng-template #elseBlock>
+                                <option [value]="element.psSmsStatus" selected><span>Desable</span> </option>
+                                <option [value]='true'><span>Enable</span></option>
+                            </ng-template>
+                        </ng-container>
+                    </td>
+                </ng-main-container>
+                <!-- productServiceControl = ['partyName', 'psNo', 'psEngineerName','psMessage', 'psStatus','psSmsStatus', 'psDate', 'action']; -->
+
+                <ng-main-container matColumnDef="psDate">
+                    <th mat-header-cell *matHeaderCellDef> <strong> Service Date</strong> </th>
+                    <td mat-cell *matCellDef="let element">
+                        <input id="psDate" name="psDate" type="date" [(ngModel)]="element.psDate" required />
+                    </td>
+                </ng-main-container>
+                <!-- productServiceControl = ['partyName', 'psNo', 'psEngineerName','psMessage', 'psStatus','psSmsStatus', 'psDate', 'action']; -->
+
+                <ng-main-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef style="width: 10% !important;"><strong>Action
+                        </strong></th>
+                    <td mat-cell *matCellDef="let element;"><button (click)="UpdateAction(element)" ngClass="underline color-blue cursore-pointer">Update</button>
+                    </td>
+                </ng-main-container>
+
+                <tr mat-header-row ngClass="mat-header-row" *matHeaderRowDef="productServiceControl"></tr>
+                <tr mat-row ngClass="mat-row" (click)="clickProductServiceControlTableRow.add(row)"
+                    [class.demo-row-is-clicked]="clickProductServiceControlTableRow.has(row)"
+                    *matRowDef="let row; columns: productServiceControl;">
+                </tr>
+            </table>
+            <!-- </div> -->
+
+
+        </div>

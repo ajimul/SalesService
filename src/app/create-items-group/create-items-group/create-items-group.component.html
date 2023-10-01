@@ -1,0 +1,28 @@
+
+<main>
+    <header>
+        <button type="button" mat-dialog-close='false'>X</button>
+
+    </header>
+
+    <div>
+        <form [formGroup]="itemsGroup" (ngSubmit)="formSubmit()" >
+            <fieldset class="fieldset-root">
+                <legend >Items Group Create Work!</legend>
+                <div class="bg">
+                    <fieldset class="fieldset-group">
+                    <legend >Items Group Details</legend>
+                    <label for="itemsGroupName">Enter Group Name:
+                        <input type="text" id="itemsGroupName" name="itemsGroupName" formControlName="groupName">
+                    </label>
+                    
+                    <div class="submit-btn">
+                        <br>
+                        <button type="button" (click)="formSubmit()">Create</button>
+                    </div>
+                </fieldset>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</main>

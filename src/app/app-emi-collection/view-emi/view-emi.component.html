@@ -1,0 +1,75 @@
+<main>
+    <header class="bg">
+        <div>
+            <p>EMI Collection Works!</p>
+        </div>
+        <div class="flex-col width100">
+            <div class=" flex-col margin-top5px">
+                <input type="text" class="search-field" type="text" (keyup)="searchingPartyEvent($event)"
+                    [(ngModel)]="searchingParty" placeholder="Search by name date amount">
+            </div>
+            <br>
+            <hr>
+        </div>
+    </header>
+    <div class="flex-col bg margin5px  overflow-auto">
+        <div class="flex-col width100">
+            <table mat-table matSort [dataSource]="dataSourceEmiList">
+                <ng-main-container matColumnDef="partyName">
+                    <th mat-header-cell *matHeaderCellDef>Party Name</th>
+                    <td mat-cell *matCellDef="let element;let i = index" (click)="openDialogEmi_In_Details(element)">
+                        {{element.accountName}}
+                    </td>
+                </ng-main-container>
+                <ng-main-container matColumnDef="accountId">
+                    <th mat-header-cell *matHeaderCellDef>Party-Id</th>
+                    <td mat-cell *matCellDef="let element;let i = index" (click)="openDialogEmi_In_Details(element)">
+                        {{element.accountId}}
+                    </td>
+                </ng-main-container>
+                <!-- emiColumns = ['emiId','emiNo', 'emiAmount', 'emiStatus', 'emiDate']; -->
+                <ng-main-container matColumnDef="emiNo">
+                    <th mat-header-cell *matHeaderCellDef><strong><strong>Emi-No</strong></strong></th>
+                    <td mat-cell *matCellDef="let element;let i = index" (click)="openDialogEmi_In_Details(element)">
+                        <strong>{{element.emiNo}}</strong>
+                    </td>
+                </ng-main-container>
+                <!-- emiColumns = ['emiId','emiNo', 'emiAmount', 'emiStatus', 'emiDate']; -->
+                <ng-main-container matColumnDef="emiAmount">
+                    <th mat-header-cell *matHeaderCellDef><strong> Emi-Amount
+                        </strong></th>
+                    <td mat-cell *matCellDef="let element" (click)="openDialogEmi_In_Details(element)">
+                        <strong>{{element.emiAmount}}</strong>
+                    </td>
+                </ng-main-container>
+                <!-- emiColumns = ['emiId','emiNo', 'emiAmount', 'emiStatus', 'emiDate']; -->
+                <ng-main-container matColumnDef="emiStatus">
+                    <th mat-header-cell *matHeaderCellDef><strong>Status</strong></th>
+                    <td mat-cell *matCellDef="let element" (click)="openDialogEmi_In_Details(element)"> <strong
+                            [style.color]="element.emiStatus==='Pending'? 'red' : 'rgb(44, 190, 0)'">{{element.emiStatus}}</strong>
+                    </td>
+                </ng-main-container>
+                <!-- emiColumns = ['emiId','emiNo', 'emiAmount', 'emiStatus', 'emiDate']; -->
+                <ng-main-container matColumnDef="emiDate">
+                    <th mat-header-cell *matHeaderCellDef> <strong> Emi Date</strong> </th>
+                    <td mat-cell *matCellDef="let element" (click)="openDialogEmi_In_Details(element)">
+                        <strong>{{element.emiDate}}</strong>
+                    </td>
+                </ng-main-container>
+                <!-- emiColumns = ['emiId','emiNo', 'emiAmount', 'emiStatus', 'emiDate']; -->
+                <ng-main-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef><strong>Action
+                        </strong></th>
+                    <td mat-cell *matCellDef="let element;"><button (click)="openDialogPayEmi(element)"
+                            class="underline color-blue cursore-pointer">Collect</button>
+                    </td>
+                </ng-main-container>
+
+                <tr mat-header-row class="mat-header-row" *matHeaderRowDef="emiColumns;"></tr>
+                <tr mat-row class="mat-row" (click)="clickedRowsEmi.add(row)"
+                    [class.demo-row-is-clicked]="clickedRowsEmi.has(row)" *matRowDef="let row; columns: emiColumns;">
+                </tr>
+            </table>
+        </div>
+    </div>
+</main>

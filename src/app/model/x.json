@@ -1,0 +1,34 @@
+{
+    "invoiceJRParameter": {
+        "partyId": 39,
+        "partyBillingAddress": "C/o preamlal barman kadamtala shivmandir\nNearest Leninpur primary school",
+        "partyShipingAddress": "C/o preamlal barman kadamtala shivmandir\nNearest Leninpur primary school",
+        "folioId": 4,
+        "invoiceDate": "2023-09-11",
+        "partyName": "Ajimul Haque"
+    },
+    "invoiceJRBeanDataSource": [
+        {
+            "bookDetailsParticular": [
+                "Mouse-IV, \nwwwww, \n"
+            ],
+            "bookDetailsParticularAmount": 450.0,
+            "bookDetailsUnit": "Pcs",
+            "bookDetailsUnitValue": 1,
+            "bookDetailsHsnCode": null,
+            "bookDetailsTradDiscount": 0,
+            "bookDetailsTradDiscountAmount": 0.0
+        },
+        {
+            "bookDetailsParticular": [
+                "Mouse-IV, \nwwwww, \n"
+            ],
+            "bookDetailsParticularAmount": 450.0,
+            "bookDetailsUnit": "Pcs",
+            "bookDetailsUnitValue": 1,
+            "bookDetailsHsnCode": null,
+            "bookDetailsTradDiscount": 0,
+            "bookDetailsTradDiscountAmount": 0.0
+        }
+    ]
+}

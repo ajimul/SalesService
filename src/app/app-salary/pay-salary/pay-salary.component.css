@@ -1,0 +1,42 @@
+.bg {
+    background-color: hsl(210, 12%, 57%);
+    margin: 5px;
+
+}
+
+header {
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0px;
+    align-items: end;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 2px;
+}
+
+header>button {
+    outline: none;
+    border: none;
+    background-color: red;
+    color: white;
+    font-size: 1rem;
+}
+
+header>button:hover {
+    font-size: 1.2rem;
+}
+
+legend{
+    font-size: 1.5em;
+    margin: auto;
+
+}
+
+@media only screen and (min-width: 300px) and (max-width: 500px) {
+    .width50{
+        width: 100%;
+    }
+
+}

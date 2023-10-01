@@ -1,0 +1,77 @@
+<main>
+  <header>
+    <button type="button" (click)="dialogClose()" class="close-btn">X</button>
+
+  </header>
+
+  <form [formGroup]="partyForm" (ngSubmit)="formSubmit()">
+    <fieldset class="fieldset-root">
+      <legend>Add Party</legend>
+
+      <div class="bg">
+        <fieldset class="fieldset-group">
+          <legend>Personal Details</legend>
+
+          <label for="name" id="labelName"><span id="name-span">* </span>Name:
+            <input id="name" name="name" type="text" formControlName="accountName" />
+          </label>
+          <span *ngIf="nameValid()"></span>
+
+          <label for="dob">Date Of Birth: <input type="date" id="dob" name="dob" formControlName="partyDob"
+              [ngModel]="date| date:'yyyy-MM-dd'"></label>
+
+          <label for="blood">Blood Group: <input type="text" id="blood" name="blood"
+              formControlName="partyBloodGroup"></label>
+
+          <label for="aadharNo">Aadhar No.: <input type="text" id="aadharNo" name="aadharNo"
+              formControlName="partyAadharNo"></label>
+
+          <label for="panNo">Pan Card No.: <input type="text" id="panNo" name="panNo"
+              formControlName="partyPanNo"></label>
+
+          <label for="mobile1" id="labelMobile1"><span id="mobile1-span">*</span>Contact No 1:
+            <input id="mobile1" name="mobile1" type="text" formControlName="partyContactNo1" /></label>
+            <span *ngIf="mobileNoValidator()"></span>
+            
+          <label for="mobile2">Contact No 2:
+            <input id="mobile2" name="mobile2" type="text" formControlName="partyContactNo2" /></label>
+
+          <label for="email">E-mail Id:
+            <input id="email" name="email" type="text" formControlName="partyEmailId" /></label>
+        </fieldset>
+
+      </div>
+      <div class="bg">
+
+        <fieldset class="fieldset-group">
+          <legend>Address Details</legend>
+
+          <div class="billing-add">
+            <div>
+              <label for="bilAdd1">Billing&nbsp;Address:</label>
+            </div>
+
+            <textarea id="bbilAdd1" name="bilAdd1" formControlName="partyBillingAddress"  rows="4" cols="32">
+            </textarea>
+          </div>
+
+          <div class="shiping-add">
+
+            <div class="same-add">
+              <label for="bilAdd2">Shiping&nbsp;Address&nbsp;Same&nbsp;As&nbsp;Billing&nbsp;Address:</label>
+              <input type="checkbox" id="sameAddress" class="checkbox" (change)="sameAddress($event)">
+            </div>
+            <textarea id="bilAdd2" name="bilAdd2" formControlName="partyShipingAddress"  rows="4" cols="32"></textarea>
+          </div>
+
+        </fieldset>
+
+
+        <div class="submit-btn">
+          <button type="button" (click)="formSubmit()">Create</button>
+        </div><br><br>
+
+      </div>
+    </fieldset>
+  </form>
+</main>

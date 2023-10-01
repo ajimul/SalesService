@@ -1,0 +1,126 @@
+.bg {
+    background-color: hsl(210, 12%, 57%);
+
+}
+
+header {
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0px;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 2px;
+
+}
+
+p {
+    margin: 0;
+    color: white;
+}
+
+.action-container {
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 30px;
+    align-items: center;
+}
+
+.search-field {
+    width: 30dvw;
+    height: 3.5dvh;
+    outline: none;
+    border-radius: 5px;
+    border: none;
+    padding-left: 5px;
+    margin-left: 5px;
+}
+
+.create-party {
+    outline: none;
+    border-radius: 5px;
+    border: none;
+    padding-right: 5px;
+    margin-right: 5px;
+}
+
+.create-party>button {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    color: rgb(16, 0, 236);
+    text-decoration: underline;
+
+}
+
+.container {
+    margin: 5px;
+}
+
+hr {
+    border-color: hsl(200, 8%, 64%);
+}
+
+table {
+    min-width: 100%;
+}
+
+table th {
+    min-width: 10rem;
+    color: white;
+    position: sticky;
+    top: 0;
+    text-align: start;
+}
+
+table td {
+    min-width: 10rem;
+    text-align: start;
+
+}
+
+
+.party-id {
+    display: none;
+}
+
+@media only screen and (min-width: 300px) and (max-width: 500px) {
+    .search-field {
+        min-width:60dvw;
+        height: 3.5dvh;
+        outline: none;
+        border-radius: 5px;
+        border: none;
+        padding-left: 5px;
+        margin-left: 5px;
+
+    }
+
+    table {
+        min-width: 100%;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        overflow: auto;
+    }
+
+    table th {
+        min-width: 16rem;
+        color: white;
+        position: sticky;
+        top: 0;
+        text-align: start;
+    }
+
+    table td {
+        min-width: 16rem;
+    }
+    .party-id {
+        display: none;
+    }
+}

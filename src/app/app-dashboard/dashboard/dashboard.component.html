@@ -1,0 +1,24 @@
+<main ngClass="bg">
+
+    <header ngClass="bg">
+        <div>
+            <p>Dashboard Works!</p>
+        </div>
+
+    </header>
+    <h1>Enter Your Invoice Header</h1>
+    <form [formGroup]="iHeader" (ngSubmit)="formSubmit()">
+        <label for="organizationName">Organization Name:</label>
+        <input type="text" id="organizationName" placeholder="Enter the organization name..." formControlName="organizationName">
+        <br><br>
+        <label for="contactInfo">Addressing and Contact Information:</label>
+        <textarea id="contactInfo" rows="6" cols="50" formControlName="contactDetails" placeholder="Enter addressing and contact information here..." >
+
+        </textarea>
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Preview:</h2>
+    <div id="preview"></div>       
+</main>

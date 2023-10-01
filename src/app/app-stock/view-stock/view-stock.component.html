@@ -1,0 +1,97 @@
+<main>
+
+    <header class="bg">
+        <div>
+            <p>Add Stock Works!</p>
+        </div>
+
+    </header>
+    <!-- party table-->
+    <div class="container bg">
+
+        <div class="action-container">
+            <div class="search-bar">
+                <input type="text" class="search-field" type="text" (keyup)="searchingProductEvent($event)"
+                    [(ngModel)]="searchingProduct" placeholder="Search by party name mobile no email-id">
+            </div>
+            <div class="create-party">
+                <button type="button" (click)="openDialogCreateNewStock()" class="create-btn">
+                    <strong>Create&nbsp;New</strong></button>
+            </div>
+        </div>
+
+        <div>
+            <hr>
+        </div>    
+
+        <table mat-table matSort [dataSource]="dataSourceStock" class="tbl-party bg">
+            <ng-main-container matColumnDef="IiId">
+                <th class="stock-id" *matHeaderCellDef>S.No.</th>
+                <td class="stock-id" mat-cell *matCellDef="let element;let i = index">
+                </td>
+            </ng-main-container>
+
+            <ng-main-container matColumnDef="iiParticular" style="">
+                <th mat-header-cell *matHeaderCellDef><strong>Particulars
+                    </strong></th>
+                <td mat-cell *matCellDef="let element;let i=index"> <strong>{{element.iiParticular}}</strong>
+                </td>
+            </ng-main-container>
+            
+            <ng-main-container matColumnDef="iiHsn" style="">
+                <th mat-header-cell *matHeaderCellDef><strong>HSN</strong></th>
+                <td mat-cell *matCellDef="let element;let i=index"> <strong>{{element.iiHsn}}</strong> </td>
+            </ng-main-container>
+    
+            <ng-main-container matColumnDef="iiModelNo" style="">
+                <th mat-header-cell *matHeaderCellDef><strong>Model No.</strong></th>
+                <td mat-cell *matCellDef="let element;let i=index"> <strong>{{element.iiModelNo}}</strong> </td>
+            </ng-main-container>
+    
+    
+            <ng-main-container matColumnDef="iiQty" style="">
+                <th mat-header-cell *matHeaderCellDef><strong> Qty
+                    </strong></th>
+                <td mat-cell *matCellDef="let element;let i=index"> <strong>{{element.iiQty}}</strong> </td>
+            </ng-main-container>
+            
+            <ng-main-container matColumnDef="iiMrp" style="">
+                <th mat-header-cell *matHeaderCellDef><strong>@ Mrp.
+                    </strong></th>
+                <td mat-cell *matCellDef="let element;let i=index">
+                    <strong>{{element.iiMrp}}</strong>
+                </td>
+            </ng-main-container>
+            
+            <ng-main-container matColumnDef="iiPurchaseAmount" style="">
+                <th mat-header-cell *matHeaderCellDef><strong> @ Purchase
+                    </strong></th>
+                <td mat-cell *matCellDef="let element;let i=index">
+                    <strong>{{element.iiPurchaseAmount}}</strong>
+                </td>
+            </ng-main-container>
+            
+            <ng-main-container matColumnDef="iiSalesAmount" style="">
+                <th mat-header-cell *matHeaderCellDef><strong>@ Sales
+                    </strong></th>
+                <td mat-cell *matCellDef="let element;let i=index"> <strong>{{element.iiSalesAmount}}</strong>
+                </td>
+            </ng-main-container>
+    
+            <ng-main-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef style="width: 100px !important"><strong>Action
+                    </strong></th>
+                <td mat-cell *matCellDef="let element;" style="width: 100px !important">
+                    <i class="fa  fa-pencil-square fa-lg" aria-hidden="true" (click)="openDialogUpdateStock(element)"></i>
+                </td>
+            </ng-main-container>
+    
+    
+    
+            <tr mat-header-row *matHeaderRowDef="stockColumns"></tr>
+            <tr mat-row (click)="clickedRowsStock.add(row)" [class.demo-row-is-clicked]="clickedRowsStock.has(row)"
+                *matRowDef="let row; columns: stockColumns;"></tr>
+        </table>
+    </div>
+</main>
+<!-- end party table-->

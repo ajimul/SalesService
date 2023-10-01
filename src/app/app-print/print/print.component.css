@@ -1,0 +1,68 @@
+.bg {
+  background-color: hsl(210, 12%, 57%);
+
+}
+
+header {
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0px;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 2px;
+}
+
+p {
+  margin: 0;
+  color: white;
+}
+.search-field {
+  /* width: 95%; */
+  height: 3.5dvh;
+  outline: none;
+  border-radius: 5px;
+  border: none;
+  padding-left: 5px;
+  margin-left: 5px;
+}
+
+.mat-header-row {
+  height: 16px !important;
+  background-color: hsl(210, 20%, 40%);
+
+}
+
+.mat-row {
+  height: 35px !important;
+}
+
+table th {
+  /* min-width: 16rem; */
+  color: white;
+  /* position: sticky; */
+  top: 0;
+  /* text-align: start; */
+}
+
+table td {
+  background-color: rgb(206, 221, 235);
+}
+
+table td>input {
+  border: transparent;
+  background-color: rgb(206, 221, 235);
+}
+table td>button {
+  border: transparent;
+  border-radius: 15px;
+  background-color: rgb(5, 114, 216);
+justify-content: center;
+color: white;
+}
+#delete-btn{
+  background-color: red;
+}
