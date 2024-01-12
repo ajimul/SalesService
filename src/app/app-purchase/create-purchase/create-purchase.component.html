@@ -14,7 +14,12 @@
                 <div class="party-dtl-flex gap12px " [formGroup]="purchaseVoucherForm">
                     <div class="flex-col  width100">
                         <div> <label for="partyAc" class="label100">
-                                <strong>Party A/c Name :</strong> </label>
+                                <strong>Party A/c Name :
+                                    <span *ngIf="purchaseVoucherForm.get('fieldPartyAccount')?.invalid"
+                                        class="error-message">
+                                        {{ getErrorMessagePartyName('fieldPartyAccount') }}
+                                    </span>
+                                </strong> </label>
                         </div>
                         <div> <input autocomplete="off" formControlName="fieldPartyAccount" id="partyAc" name="partyAc"
                                 type="text" required placeholder="Search By Party Name" aria-label="Username"
@@ -27,7 +32,12 @@
                     </div>
                     <div class="flex-col  width100">
                         <div>
-                            <label for="voucherNo" class="label100"><strong>Voucher no. :</strong></label>
+                            <label for="voucherNo" class="label100"><strong>Voucher no. :
+                                <span *ngIf="purchaseVoucherForm.get('fieldVoucherNo')?.invalid" class="error-message">
+                                    {{ getErrorMessageVoucherNo('fieldVoucherNo') }}
+                                </span>
+
+                            </strong></label>
                         </div>
                         <div>
                             <input id="voucherNo" formControlName="fieldVoucherNo" name="first-name" type="text"
@@ -35,22 +45,25 @@
                         </div>
                     </div>
                     <div class="flex-col  width100">
-                        <div> <label for="voucherDate" class="label100"><strong>Voucher date :</strong>
+                        <div> <label for="voucherDate" class="label100"><strong>Voucher date :
+                                    <span *ngIf="purchaseVoucherForm.get('fieldVoucherDate')?.invalid" class="error-message">
+                                        {{ getErrorMessageVoucherDate('fieldVoucherDate') }}
+                                    </span>
+                                </strong>
                             </label>
                         </div>
                         <div>
-                            <input id="voucherDate" formControlName="fieldVoucherDate" name="first-name" type="date"
-                                [ngModel]="currentDate | date:'yyyy-MM-dd'" required class="inputdate100" />
+                            <input id="voucherDate" formControlName="fieldVoucherDate" name="first-name" type="date" class="width100"
+                                 required  />
                         </div>
-
                     </div>
                     <div class="flex-col  width100">
                         <div>
                             <label for="transactionDate" class="label100"><strong> Transaction date :</strong> </label>
                         </div>
                         <div>
-                            <input id="transactionDate" formControlName="fieldTransactionDate" name="first-name"
-                                type="date" [ngModel]="currentDate | date:'yyyy-MM-dd'" required class="inputdate100" />
+                            <input id="transactionDate" formControlName="fieldTransactionDate" name="first-name" class="width100"
+                                type="date" required  />
                         </div>
                     </div>
                 </div>
@@ -491,8 +504,7 @@
                         <label for="extAmount"><strong>Extra&nbsp;Charges&nbsp;Amount:</strong></label>
                     </div>
                     <div class="width100">
-                        <input type="text" id="extAmount" placeholder="0.0"
-                            class="inputtext100">
+                        <input type="text" id="extAmount" placeholder="0.0" class="inputtext100">
                     </div>
                 </div>
                 <div class="width100 flex-clo gap10px">
@@ -513,7 +525,11 @@
                 <div class="extra-charges-flex gap10px">
                     <div class="width100 flex-clo gap10px">
                         <div class="margin-right5px">
-                            <label for="extAmount"><strong>Payable&nbsp;Amount&nbsp;: </strong></label>
+                            <label for="extAmount"><strong>Payable&nbsp;Amount&nbsp;:
+                                <span *ngIf="purchaseVoucherForm.get('transactionAmount')?.invalid" class="error-message">
+                                    {{ getErrorMessageTransectionAmount('transactionAmount') }}
+                                </span>
+                            </strong></label>
                         </div>
                         <div class="width100">
                             <input formControlName="transactionAmount" type="text" id="extAmount" placeholder="0.0"
@@ -522,12 +538,18 @@
                     </div>
                     <div class="width100 flex-clo gap10px">
                         <div class="margin-right5px">
-                            <label for="extDescription"> <strong>Transaction&nbsp;By&nbsp;:</strong></label>
+                            <label for="extDescription"> <strong>Transaction&nbsp;By&nbsp;:
+                                <span *ngIf="purchaseVoucherForm.get('transactionalAccount')?.invalid" class="error-message">
+                                    {{ getErrorMessageSelectTransectionAcc('transactionalAccount') }}
+                                </span>
+                            </strong></label>
                         </div>
                         <div class="width100">
                             <select id="transactionMode" formControlName="transactionalAccount" class="select100">
+                                <option value="default">--</option>
                                 <option *ngFor="let list of accountList; let i = index" value={{list.accountName}}>
-                                    {{list.accountName}}</option>
+                                    {{list.accountName}}
+                                </option>
                             </select>
                         </div>
                     </div>

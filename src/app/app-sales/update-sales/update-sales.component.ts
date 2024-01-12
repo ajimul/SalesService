@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -10,6 +10,8 @@ import { CreatePartyComponent } from 'src/app/app-party/create-party/create-part
 import { UpdatePartyComponent } from 'src/app/app-party/update-party/update-party.component';
 import { CreateStockComponent } from 'src/app/app-stock/create-stock/create-stock.component';
 import { UpdateStockComponent } from 'src/app/app-stock/update-stock/update-stock.component';
+import { CustomValidation } from 'src/app/app-validator/custom-validation';
+import { CustomValidationService } from 'src/app/app-validator/custom-validation-service';
 import { BookDetails } from 'src/app/model/bookdetails';
 import { Emi } from 'src/app/model/emi';
 import { EmployeeDetailsDTO } from 'src/app/model/employee';
@@ -81,6 +83,7 @@ export class UpdateSalesComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private route: Router,
     private service: Service,
+    private validationService: CustomValidationService,
     public fb: FormBuilder) {
 
   }
@@ -97,6 +100,13 @@ export class UpdateSalesComponent implements OnInit, OnDestroy {
     produtcs = [];
     emi = [];
     productServices= [];
+    this.salesUpdateForm = this.fb.group({
+      transactionalAccount: new FormControl('', [Validators.required,CustomValidation.customSelect()]),
+      transactionAmount: new FormControl('', [Validators.required,CustomValidation.customDecimal()]),//total amount including all tax
+      fieldTransactionDate: new FormControl(this.formatDate(new Date()),[Validators.required,CustomValidation.customDate()]),
+      fieldPartyAccount: new FormControl('',[Validators.required,CustomValidation.customName()]),//effected account
+      fieldNaration: new FormControl()
+    })
   }
 refresh(){
   this.totalQty = 0;
@@ -118,6 +128,20 @@ refresh(){
   productServices= [];
   this.dataSourceServiceTable = new MatTableDataSource<ProductServices>(productServices);
     this.dataSourceServiceTable._renderChangesSubscription;
+    this.salesUpdateForm = this.fb.group({
+      transactionalAccount: new FormControl('', [Validators.required,CustomValidation.customSelect()]),
+      transactionAmount: new FormControl('', [Validators.required,CustomValidation.customDecimal()]),//total amount including all tax
+      fieldTransactionDate: new FormControl(this.formatDate(new Date()),[Validators.required,CustomValidation.customDate()]),
+      fieldPartyAccount: new FormControl('',[Validators.required,CustomValidation.customName()]),//effected account
+      fieldNaration: new FormControl()
+    })
+}
+formatDate(date: Date): string {
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-based
+  const year = date.getFullYear();
+
+  return `${year}-${month}-${day}`;
 }
   ngOnInit(): void {
     this.getTransactionalAccounts();
@@ -128,13 +152,21 @@ refresh(){
     // get User Data
     this.getEmployee();
     //identifying the trnsection
-    this.salesUpdateForm = this.fb.group({
-      transactionalAccount: new FormControl(),
-      transactionAmount: new FormControl(),//total amount including all tax
-      fieldTransactionDate: new FormControl(new Date(this.currentDate)),
-      fieldPartyAccount: new FormControl(),//effected account
-      fieldNaration: new FormControl()
+    // this.salesUpdateForm = this.fb.group({
+    //   transactionalAccount: new FormControl(),
+    //   transactionAmount: new FormControl(),//total amount including all tax
+    //   fieldTransactionDate: new FormControl(new Date(this.currentDate)),
+    //   fieldPartyAccount: new FormControl(),//effected account
+    //   fieldNaration: new FormControl()
 
+    // })
+
+    this.salesUpdateForm = this.fb.group({
+      transactionalAccount: new FormControl('', [Validators.required,CustomValidation.customSelect()]),
+      transactionAmount: new FormControl('', [Validators.required,CustomValidation.customDecimal()]),//total amount including all tax
+      fieldTransactionDate: new FormControl(this.formatDate(new Date()),[Validators.required,CustomValidation.customDate()]),
+      fieldPartyAccount: new FormControl('',[Validators.required,CustomValidation.customName()]),//effected account
+      fieldNaration: new FormControl()
     })
 
     // Emi and Service Implements
@@ -185,9 +217,7 @@ refresh(){
     }
   }
 
-  get installmentDate() {
-    return this.emiForm.get('installmentDate');
-  }
+ 
   //End Emi
 
   // ********************************************-------purchase voucher form-------************************************************ 
@@ -752,23 +782,7 @@ refresh(){
   dataSourceTaxableTable = new MatTableDataSource<TaxableValue>(taxableValue);
   clickedRowsSubtotal = new Set<TaxableValue>();
 
-  get transactionalAccount() {
-    return this.salesUpdateForm.get('transactionalAccount');
-  }
-  get transactionAmount() {
-    return this.salesUpdateForm.get('transactionAmount');
-  }
-  get fieldNaration() {
-    return this.salesUpdateForm.get('fieldNaration');
-  }
-
-  get fieldTransactionDate() {
-    return this.salesUpdateForm.get('fieldTransactionDate');
-  }
-  get fieldPartyAccount() {
-    return this.salesUpdateForm.get('fieldPartyAccount');
-  }
-
+ 
 
   calculatePercent(price: number, percentage: number): number {
     return (price * (percentage) / 100);
@@ -815,14 +829,21 @@ refresh(){
   clickedRowsService = new Set<ProductServices>();
 
   isEmi() {
-    if (this.transactionalAccount?.value === 'Sundry Debtors') {
+    if (this.salesUpdateForm.get('transactionalAccount')?.value === '--') {
+      this.emiFormDisplay = "display:none";
+      this.emiTableDisplay = "display:none";
+      this.serviceTableDisplay = "display:none";
+
+
+    } else if (this.salesUpdateForm.get('transactionalAccount')?.value === 'Sundry Debtors'){
+      console.log('Sundry Debtors')
       this.emiFormDisplay = "display:block";
       this.emiTableDisplay = "display:block";
       this.calculateEmi();
 
 
     } else {
-      if (Number(this.transactionAmount?.value) != 0) {
+      if (Number(this.salesUpdateForm.get('transactionAmount')?.value) != 0) {
         this.calculateService();
       }
       this.serviceTableDisplay = "display:block";
@@ -832,51 +853,51 @@ refresh(){
 
     }
 
-    if (this.transactionAmount?.value !== 0) {
+    if (this.salesUpdateForm.get('transactionAmount')?.value !== 0) {
 
     }
 
   }
   // re-initialized service,emi
   calculateEmi() {
-    if (Number(this.transactionAmount?.value) != 0 && String(this.installmentRangeNumber) != "" && this.installmentRangeNumber != null) {
+    if (Number(this.salesUpdateForm.get('transactionAmount')?.value) != 0 && String(this.installmentRangeNumber) != "" && this.installmentRangeNumber != null) {
 
       this.installmentAmount = 0;
       emi = [];
       productServices = [];
       if (Number(this.emiProcessingFee) !== 0 && Number(this.downPaymet) !== 0) {
         if (Number(this.installmentRangeNumber) !== 0) {
-          this.installmentAmount += ((Number(this.transactionAmount?.value) + Number((this.emiProcessingFee))) -
+          this.installmentAmount += ((Number(this.salesUpdateForm.get('transactionAmount')?.value) + Number((this.emiProcessingFee))) -
             Number((this.downPaymet))) / Number((this.installmentRangeNumber));
         } else {
-          this.installmentAmount += (Number(this.transactionAmount?.value) + Number((this.emiProcessingFee))) -
+          this.installmentAmount += (Number(this.salesUpdateForm.get('transactionAmount')?.value) + Number((this.emiProcessingFee))) -
             Number((this.downPaymet));
         }
       } else if (Number(this.emiProcessingFee) === 0 && Number(this.downPaymet) === 0) {
         if (Number(this.installmentRangeNumber) !== 0) {
-          this.installmentAmount += Number(this.transactionAmount?.value) / Number(this.installmentRangeNumber);
+          this.installmentAmount += Number(this.salesUpdateForm.get('transactionAmount')?.value) / Number(this.installmentRangeNumber);
         } else {
-          this.installmentAmount += Number(this.transactionAmount?.value);
+          this.installmentAmount += Number(this.salesUpdateForm.get('transactionAmount')?.value);
 
         }
       }
       else if (Number(this.emiProcessingFee) !== 0 && Number(this.downPaymet) === 0) {
         if (Number(this.installmentRangeNumber) !== 0) {
-          this.installmentAmount += (Number(this.transactionAmount?.value) + Number(this.emiProcessingFee)) / Number(this.installmentRangeNumber);
+          this.installmentAmount += (Number(this.salesUpdateForm.get('transactionAmount')?.value) + Number(this.emiProcessingFee)) / Number(this.installmentRangeNumber);
         } else {
-          this.installmentAmount += (Number(this.transactionAmount?.value) + Number(this.emiProcessingFee));
+          this.installmentAmount += (Number(this.salesUpdateForm.get('transactionAmount')?.value) + Number(this.emiProcessingFee));
 
         }
       }
       else if (Number(this.emiProcessingFee) === 0 && Number(this.downPaymet) !== 0) {
         if (Number(this.installmentRangeNumber) !== 0) {
-          this.installmentAmount += (Number(this.transactionAmount?.value) - Number(this.downPaymet)) / Number(this.installmentRangeNumber);
+          this.installmentAmount += (Number(this.salesUpdateForm.get('transactionAmount')?.value) - Number(this.downPaymet)) / Number(this.installmentRangeNumber);
         }
         else {
-          this.installmentAmount += (Number(this.transactionAmount?.value) - Number(this.downPaymet));
+          this.installmentAmount += (Number(this.salesUpdateForm.get('transactionAmount')?.value) - Number(this.downPaymet));
         }
       }
-      let emi_Date = new Date(this.installmentDate?.value);
+      let emi_Date = new Date(this.emiForm.get('installmentDate')?.value);
       for (let range: number = 0; range < Number(this.installmentRangeNumber); range++) {
         emi_Date.setMonth((emi_Date.getMonth()) + 1);
         emi.push({
@@ -889,7 +910,7 @@ refresh(){
         })
       }
       for (let items: number = 0; items < produtcs.length; items++) {
-        let serviceDate = new Date(this.fieldTransactionDate?.value);
+        let serviceDate = new Date(this.salesUpdateForm.get('fieldTransactionDate')?.value);
 
         let serviceRange = ~~(Number(produtcs[items].productMonthOfWarranty) / Number(produtcs[items].productNoOfService))
         for (let range: number = 0; range < Number(produtcs[items].productNoOfService); range++) {
@@ -921,7 +942,7 @@ refresh(){
 
     for (let items: number = 0; items < produtcs.length; items++) {
 
-      let serviceDate = new Date(this.fieldTransactionDate?.value);
+      let serviceDate = new Date(this.salesUpdateForm.get('fieldTransactionDate')?.value);
       let serviceRange = ~~(Number(produtcs[items].productMonthOfWarranty) / Number(produtcs[items].productNoOfService))
       for (let range: number = 0; range < Number(produtcs[items].productNoOfService); range++) {
         if (serviceDate.getMonth() === 0) {
@@ -949,8 +970,8 @@ refresh(){
 
   salesUpdate() {
     let transectionalAccounts: TransectionalAccounts = {
-      transactionAccountName: this.transactionalAccount?.value,
-      transactionAmount: Number(this.transactionAmount?.value)
+      transactionAccountName: this.salesUpdateForm.get('transactionalAccount')?.value,
+      transactionAmount: Number(this.salesUpdateForm.get('transactionAmount')?.value)
     };
     // let inventoryJournal: InventoryJournal[] = [];
     let inventoryJournal: any[] = [];
@@ -988,8 +1009,8 @@ refresh(){
 
       inventoryJournal.push({
         ij_iiId: produtcs[i].productNo,//ij_iiId is the gurenge  key and here productNo is the Id of the InventoryItems
-        ijDate: String(this.fieldTransactionDate?.value),
-        ijPartyName: this.fieldPartyAccount?.value,
+        ijDate: String(this.salesUpdateForm.get('fieldTransactionDate')?.value),
+        ijPartyName: this.salesUpdateForm.get('fieldPartyAccount')?.value,
         ijVoucherType: "Sales",
         // ijVoucherNo: 0,//Voucher no Will be Set by API Implementation
         ijInwardQty: 0,
@@ -1030,14 +1051,14 @@ refresh(){
       })
 
     }
-    // if (this.transactionalAccount?.value === 'Sundry Debtors') {
+    // if (this.salesUpdateForm.get('transactionalAccount')?.value === 'Sundry Debtors') {
 
     sales = {
       userId: 1,
       accountId: this.accountId,
-      partyAcName: this.fieldPartyAccount?.value,
-      transectionDate: this.fieldTransactionDate?.value,
-      naration: this.fieldNaration?.value,
+      partyAcName: this.salesUpdateForm.get('fieldPartyAccount')?.value,
+      transectionDate: this.salesUpdateForm.get('fieldTransactionDate')?.value,
+      naration: this.salesUpdateForm.get('fieldNaration')?.value,
       product: product,
       transectionalAccounts,
       bookDetails,
@@ -1046,13 +1067,19 @@ refresh(){
     }
     // this.jsonDisplay = true;
     // this.data = sales//initialized data
+    if(this.salesUpdateForm.valid){
     this.service.addSalesEdit(sales, this.bookDetailsBookInfo_Ref).subscribe({
       next: (value) => {
 
       },
-      error: (_err) => {
-        let x: any = _err
-        alert('Transaction Failed!')
+      error: (err) => {
+        if (err.status === 400) {
+          alert('Transaction Failed! Please check your input data.');
+        } else if (err.status === 401) {
+          alert('Authentication failed. Please log in.');
+        } else {
+          alert('Transaction Failed! Something went wrong. Please try again later.');
+        }
       },
       complete: () => {
         alert("Transaction Successful!");
@@ -1063,8 +1090,46 @@ refresh(){
       }
     })
   }
+  else{
+    alert('Transaction Failed! Please fill in all required fields.');
+  }}
 
-
+// validation
+getErrorMessagePartyName(controlName: string): string | null {
+  const control = this.salesUpdateForm.get(controlName);
+  return control
+    ? this.validationService.getErrorMessageName(
+        control,
+        '*',
+        '*',
+        '*',
+        '*',
+        '*'
+      )
+    : null;
+}
+getErrorMessageTransectionDate(controlName: string): string | null {
+  const control = this.salesUpdateForm.get(controlName);
+  return control
+    ? this.validationService.getErrorMessageDate(
+        control,
+        '*',
+        '*'
+      )
+    : null;
+}
+getErrorMessageSelectTransectionAcc(controlName: string): string | null {
+  const control = this.salesUpdateForm.get(controlName);
+  return control
+    ? this.validationService.getErrorMessageSelect(control, '*')
+    : null;
+}
+getErrorMessageTransectionAmount(controlName: string): string | null {
+  const control = this.salesUpdateForm.get(controlName);
+  return control
+    ? this.validationService.getErrorMessageNumberDecimal(control, '*','*','*','*')
+    : null;
+}
 }
 
 

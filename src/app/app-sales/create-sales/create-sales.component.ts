@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -24,6 +24,8 @@ import { TaxableValue } from 'src/app/model/tax';
 import { TransectionalAccounts } from 'src/app/model/transactional-account';
 import { Service } from 'src/app/services/service.service';
 import { UpdateInventoryItemsDTO } from 'src/app/model/update-inventory';
+import { CustomValidationService } from 'src/app/app-validator/custom-validation-service';
+import { CustomValidation } from 'src/app/app-validator/custom-validation';
 
 let taxableValue: TaxableValue[] = [];
 let produtcs: Products[] = [];
@@ -90,6 +92,7 @@ export class CreateSalesComponent implements OnInit {
     public dialog: MatDialog,
     private route: Router,
     private service: Service,
+    private validationService: CustomValidationService,
     public fb: FormBuilder) { }
 
     ngOnDestroy(): void {
@@ -105,6 +108,23 @@ export class CreateSalesComponent implements OnInit {
       produtcs = [];
       emi = [];
       productServices= [];
+      this.getTransactionalAccounts();
+      this.emiForm = this.fb.group({
+        emiProcessingFee: new FormControl(),
+        downPaymet: new FormControl(),//total amount including all tax
+        installmentRangeNumber: new FormControl(this.installmentRangeNumber),
+        installmentAmount: new FormControl(this.installmentAmount),
+        installmentDate: new FormControl(this.currentDate),
+        noOfService: new FormControl(),
+  
+      })
+      this.salesVoucherForm = this.fb.group({
+        transactionalAccount: new FormControl('', [Validators.required,CustomValidation.customSelect()]),
+        transactionAmount: new FormControl('', [Validators.required,CustomValidation.customDecimal()]),//total amount including all tax
+        fieldTransactionDate: new FormControl(this.formatDate(new Date()),[Validators.required,CustomValidation.customDate()]),
+        fieldPartyAccount: new FormControl('',[Validators.required,CustomValidation.customName()]),//effected account
+        fieldNaration: new FormControl()
+      })
     }
   refresh(){
     this.totalQty = 0;
@@ -127,6 +147,29 @@ export class CreateSalesComponent implements OnInit {
     productServices= [];
     this.dataSourceServiceTable = new MatTableDataSource<ProductServices>(productServices);
       this.dataSourceServiceTable._renderChangesSubscription;
+      this.getTransactionalAccounts();
+      this.emiForm = this.fb.group({
+        emiProcessingFee: new FormControl(),
+        downPaymet: new FormControl(),//total amount including all tax
+        installmentRangeNumber: new FormControl(this.installmentRangeNumber),
+        installmentAmount: new FormControl(this.installmentAmount),
+        installmentDate: new FormControl(this.currentDate),
+        noOfService: new FormControl(),
+  
+      })
+      this.salesVoucherForm = this.fb.group({
+        transactionalAccount: new FormControl('', [Validators.required,CustomValidation.customSelect()]),
+        transactionAmount: new FormControl('', [Validators.required,CustomValidation.customDecimal()]),//total amount including all tax
+        fieldTransactionDate: new FormControl(this.formatDate(new Date()),[Validators.required,CustomValidation.customDate()]),
+        fieldPartyAccount: new FormControl('',[Validators.required,CustomValidation.customName()]),//effected account
+        fieldNaration: new FormControl()
+      })
+  }  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-based
+    const year = date.getFullYear();
+  
+    return `${year}-${month}-${day}`;
   }
   ngOnInit(): void {
     this.getTransactionalAccounts();
@@ -138,31 +181,28 @@ export class CreateSalesComponent implements OnInit {
     this.getEmployee();
     //identifying the trnsection
     this.salesVoucherForm = this.fb.group({
-      transactionalAccount: new FormControl(),
-      transactionAmount: new FormControl(),//total amount including all tax
-      // fieldVoucherNo: new FormControl(),
-      // fieldVoucherDate: new FormControl(new Date(this.currentDate)),
-      fieldTransactionDate: new FormControl(new Date(this.currentDate)),
-      fieldPartyAccount: new FormControl(),//effected account
+      transactionalAccount: new FormControl('', [Validators.required,CustomValidation.customSelect()]),
+      transactionAmount: new FormControl('', [Validators.required,CustomValidation.customDecimal()]),//total amount including all tax
+      fieldTransactionDate: new FormControl(this.formatDate(new Date()),[Validators.required,CustomValidation.customDate()]),
+      fieldPartyAccount: new FormControl('',[Validators.required,CustomValidation.customName()]),//effected account
       fieldNaration: new FormControl()
-
     })
 
     // Emi and Service Implements
     this.emiForm = this.fb.group({
       emiProcessingFee: new FormControl(),
       downPaymet: new FormControl(),//total amount including all tax
-      installmentRangeNumber: new FormControl(),
+      installmentRangeNumber: new FormControl(this.installmentRangeNumber),
       installmentAmount: new FormControl(),
-      installmentDate: new FormControl(),
+      installmentDate: new FormControl(this.currentDate),
       noOfService: new FormControl(),
 
     })
 
   }
-  get installmentDate() {
-    return this.emiForm.get('installmentDate');
-  }
+  // get installmentDate() {
+  //   return this.emiForm.get('installmentDate');
+  // }
   //End Emi
 
   // ********************************************-------purchase voucher form-------************************************************ 
@@ -632,29 +672,6 @@ export class CreateSalesComponent implements OnInit {
   dataSourceTaxableTable = new MatTableDataSource<TaxableValue>(taxableValue);
   clickedRowsSubtotal = new Set<TaxableValue>();
 
-  get transactionalAccount() {
-    return this.salesVoucherForm.get('transactionalAccount');
-  }
-  get transactionAmount() {
-    return this.salesVoucherForm.get('transactionAmount');
-  }
-  get fieldNaration() {
-    return this.salesVoucherForm.get('fieldNaration');
-  }
-  // get fieldVoucherNo() {
-  //   return this.salesVoucherForm.get('fieldVoucherNo');
-  // }
-  // get fieldVoucherDate() {
-  //   return this.salesVoucherForm.get('fieldVoucherDate');
-  // }
-  get fieldTransactionDate() {
-    return this.salesVoucherForm.get('fieldTransactionDate');
-  }
-  get fieldPartyAccount() {
-    return this.salesVoucherForm.get('fieldPartyAccount');
-  }
-
-
   calculatePercent(price: number, percentage: number): number {
     return (price * (percentage) / 100);
   }
@@ -699,14 +716,20 @@ export class CreateSalesComponent implements OnInit {
   clickedRowsService = new Set<ProductServices>();
 
   isEmi() {
-    if (this.transactionalAccount?.value === 'Sundry Debtors') {
+    if (this.salesVoucherForm.get('transactionalAccount')?.value === 'default') {
+      console.log('Default value is selected.');
+      this.emiFormDisplay = "display:none";
+      this.emiTableDisplay = "display:none";
+      this.serviceTableDisplay = "display:none";
+    } else if (this.salesVoucherForm.get('transactionalAccount')?.value === 'Sundry Debtors') {
       this.emiFormDisplay = "display:block";
       this.emiTableDisplay = "display:block";
       this.calculateEmi();
 
 
-    } else {
-      if (Number(this.transactionAmount?.value) != 0) {
+    } 
+    else {
+      if (Number(this.salesVoucherForm.get('transactionAmount')?.value) != 0) {
         this.calculateService();
       }
       this.serviceTableDisplay = "display:block";
@@ -716,51 +739,51 @@ export class CreateSalesComponent implements OnInit {
 
     }
 
-    if (this.transactionAmount?.value !== 0) {
+    if (this.salesVoucherForm.get('transactionAmount')?.value !== 0) {
 
     }
 
   }
   // re-initialized service,emi
   calculateEmi() {
-    if (Number(this.transactionAmount?.value) != 0 && String(this.installmentRangeNumber) != "" && this.installmentRangeNumber != null) {
+    if (Number(this.salesVoucherForm.get('transactionAmount')?.value) != 0 && String(this.installmentRangeNumber) != "" && this.installmentRangeNumber != null) {
 
       this.installmentAmount = 0;
       emi = [];
       productServices = [];
       if (Number(this.emiProcessingFee) !== 0 && Number(this.downPaymet) !== 0) {
         if (Number(this.installmentRangeNumber) !== 0) {
-          this.installmentAmount += ((Number(this.transactionAmount?.value) + Number((this.emiProcessingFee))) -
+          this.installmentAmount += ((Number(this.salesVoucherForm.get('transactionAmount')?.value) + Number((this.emiProcessingFee))) -
             Number((this.downPaymet))) / Number((this.installmentRangeNumber));
         } else {
-          this.installmentAmount += (Number(this.transactionAmount?.value) + Number((this.emiProcessingFee))) -
+          this.installmentAmount += (Number(this.salesVoucherForm.get('transactionAmount')?.value) + Number((this.emiProcessingFee))) -
             Number((this.downPaymet));
         }
       } else if (Number(this.emiProcessingFee) === 0 && Number(this.downPaymet) === 0) {
         if (Number(this.installmentRangeNumber) !== 0) {
-          this.installmentAmount += Number(this.transactionAmount?.value) / Number(this.installmentRangeNumber);
+          this.installmentAmount += Number(this.salesVoucherForm.get('transactionAmount')?.value) / Number(this.installmentRangeNumber);
         } else {
-          this.installmentAmount += Number(this.transactionAmount?.value);
+          this.installmentAmount += Number(this.salesVoucherForm.get('transactionAmount')?.value);
 
         }
       }
       else if (Number(this.emiProcessingFee) !== 0 && Number(this.downPaymet) === 0) {
         if (Number(this.installmentRangeNumber) !== 0) {
-          this.installmentAmount += (Number(this.transactionAmount?.value) + Number(this.emiProcessingFee)) / Number(this.installmentRangeNumber);
+          this.installmentAmount += (Number(this.salesVoucherForm.get('transactionAmount')?.value) + Number(this.emiProcessingFee)) / Number(this.installmentRangeNumber);
         } else {
-          this.installmentAmount += (Number(this.transactionAmount?.value) + Number(this.emiProcessingFee));
+          this.installmentAmount += (Number(this.salesVoucherForm.get('transactionAmount')?.value) + Number(this.emiProcessingFee));
 
         }
       }
       else if (Number(this.emiProcessingFee) === 0 && Number(this.downPaymet) !== 0) {
         if (Number(this.installmentRangeNumber) !== 0) {
-          this.installmentAmount += (Number(this.transactionAmount?.value) - Number(this.downPaymet)) / Number(this.installmentRangeNumber);
+          this.installmentAmount += (Number(this.salesVoucherForm.get('transactionAmount')?.value) - Number(this.downPaymet)) / Number(this.installmentRangeNumber);
         }
         else {
-          this.installmentAmount += (Number(this.transactionAmount?.value) - Number(this.downPaymet));
+          this.installmentAmount += (Number(this.salesVoucherForm.get('transactionAmount')?.value) - Number(this.downPaymet));
         }
       }
-      let emi_Date = new Date(this.installmentDate?.value);
+      let emi_Date = new Date(this.emiForm.get('installmentDate')?.value);
       for (let range: number = 0; range < Number(this.installmentRangeNumber); range++) {
         emi_Date.setMonth((emi_Date.getMonth()) + 1);
         emi.push({
@@ -773,7 +796,7 @@ export class CreateSalesComponent implements OnInit {
         })
       }
       for (let items: number = 0; items < produtcs.length; items++) {
-        let serviceDate = new Date(this.fieldTransactionDate?.value);
+        let serviceDate = new Date(this.salesVoucherForm.get('fieldTransactionDate')?.value);
 
         let serviceRange = ~~(Number(produtcs[items].productMonthOfWarranty) / Number(produtcs[items].productNoOfService))
         for (let range: number = 0; range < Number(produtcs[items].productNoOfService); range++) {
@@ -805,7 +828,7 @@ export class CreateSalesComponent implements OnInit {
 
     for (let items: number = 0; items < produtcs.length; items++) {
 
-      let serviceDate = new Date(this.fieldTransactionDate?.value);
+      let serviceDate = new Date(this.salesVoucherForm.get('fieldTransactionDate')?.value);
       let serviceRange = ~~(Number(produtcs[items].productMonthOfWarranty) / Number(produtcs[items].productNoOfService))
       for (let range: number = 0; range < Number(produtcs[items].productNoOfService); range++) {
         if (serviceDate.getMonth() === 0) {
@@ -829,11 +852,11 @@ export class CreateSalesComponent implements OnInit {
   }
 
   createSales() {
-    console.log("xxxxxxxxxx  "+this.transactionalAccount?.value)
-    console.log("xxxxxxxxxx  "+this.transactionAmount?.value)
+  
+
     let transectionalAccounts: TransectionalAccounts = {
-      transactionAccountName: this.transactionalAccount?.value,
-      transactionAmount: Number(this.transactionAmount?.value)
+      transactionAccountName: this.salesVoucherForm.get('transactionalAccount')?.value,
+      transactionAmount: Number(this.salesVoucherForm.get('transactionAmount')?.value)
 
      
 
@@ -872,8 +895,8 @@ export class CreateSalesComponent implements OnInit {
       })
       inventoryJournal.push({
         ij_iiId: produtcs[i].productNo,//ij_iiId is the gurenge  key and here productNo is the Id of the InventoryItems
-        ijDate: String(this.fieldTransactionDate?.value),
-        ijPartyName: this.fieldPartyAccount?.value,
+        ijDate: String(this.salesVoucherForm.get('fieldTransactionDate')?.value),
+        ijPartyName: this.salesVoucherForm.get('fieldPartyAccount')?.value,
         ijVoucherType: "Sales",
         // ijVoucherNo: 0,//Voucher no Will be Set by API Implementation
         ijInwardQty: 0,
@@ -920,31 +943,76 @@ export class CreateSalesComponent implements OnInit {
     sales = {
       accountId: this.accountId,
       userId: 1,
-      partyAcName: this.fieldPartyAccount?.value,
-      transectionDate: this.fieldTransactionDate?.value,
-      naration: this.fieldNaration?.value,
+      partyAcName: this.salesVoucherForm.get('fieldPartyAccount')?.value,
+      transectionDate: this.salesVoucherForm.get('fieldTransactionDate')?.value,
+      naration: this.salesVoucherForm.get('fieldNaration')?.value,
       product: product,
       transectionalAccounts,
       bookDetails,
       inventoryJournal: inventoryJournal,
       emi: emi
     }
+    if(this.salesVoucherForm.valid){
     this.service.addSales(sales).subscribe({
       next: (value) => {
 
       },
-      error: (_err) => {
-        let x: any = _err
-        alert('Transaction Failed!')
+      error: (err) => {
+        if (err.status === 400) {
+          alert('Transaction Failed! Please check your input data.');
+        } else if (err.status === 401) {
+          alert('Authentication failed. Please log in.');
+        } else {
+          alert('Transaction Failed! Something went wrong. Please try again later.');
+        }
       },
       complete: () => {
         alert("Transaction Successful!")
         this.refresh();
       }
     })
-
   }
+  else{
+    alert('Transaction Failed! Please fill in all required fields.');
+  }}
 
+
+// validation
+getErrorMessagePartyName(controlName: string): string | null {
+  const control = this.salesVoucherForm.get(controlName);
+  return control
+    ? this.validationService.getErrorMessageName(
+        control,
+        '*',
+        '*',
+        '*',
+        '*',
+        '*'
+      )
+    : null;
+}
+getErrorMessageTransectionDate(controlName: string): string | null {
+  const control = this.salesVoucherForm.get(controlName);
+  return control
+    ? this.validationService.getErrorMessageDate(
+        control,
+        '*',
+        '*'
+      )
+    : null;
+}
+getErrorMessageSelectTransectionAcc(controlName: string): string | null {
+  const control = this.salesVoucherForm.get(controlName);
+  return control
+    ? this.validationService.getErrorMessageSelect(control, '*')
+    : null;
+}
+getErrorMessageTransectionAmount(controlName: string): string | null {
+  const control = this.salesVoucherForm.get(controlName);
+  return control
+    ? this.validationService.getErrorMessageNumberDecimal(control, '*','*','*','*')
+    : null;
+}
 }
 
 

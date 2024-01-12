@@ -12,14 +12,13 @@
                     <fieldset class="fieldset-group">
                         <legend>Stock details</legend>
 
-                        <label for="inventoryItemsParticular" id="label-stockName">
-                            <span id="stockName-span">*</span>Stock Description:
+                        <label for="inventoryItemsParticular" id="label-stockName">Stock Description:
+                            <span *ngIf="formInventory.get('iiParticular')?.invalid" class="error-message">
+                                {{ getErrorMessageItemNames('iiParticular') }}
+                              </span>
                             <input class="boarder-bottom boarder-roun" id="inventoryItemsParticular" name="iiParticular"
                                 type="text" formControlName="iiParticular"   />
                         </label>
-                        <span *ngIf="stockNameValidator()"></span>
-
-
                         <label for="inventoryItemsHsn">HSN:
                             <input class="boarder-bottom boarder-roun" id="inventoryItemsHsn" name="igName" type="text"
                                 formControlName="iiHsn"  /></label>
@@ -38,7 +37,11 @@
                         <div style="display: flex;flex-direction: column;margin: 5px;
                         min-width: 32.1%;">
                             <div>
-                                <label for="itemUnit" id="label-unit"><span id="unit-span">*</span>Select Unit:</label>
+                                <label for="itemUnit" id="label-unit">Select Unit:
+                                    <span *ngIf="formInventory.get('iiUnitName')?.invalid" class="error-message">
+                                        {{ getErrorMessageSelectUnit('iiUnitName') }}
+                                    </span>
+                                </label>
                             </div>
                             <div>
                                 <select id="itemUnit" name="iiUnitName" formControlName="iiUnitName"
@@ -46,7 +49,6 @@
                                     <option value="Pcs">Pcs</option>
                                 </select>
                             </div>
-                            <span *ngIf="unitValidator()"></span>
                         </div>
 
 
@@ -57,55 +59,67 @@
                 <div class="bg">
                     <fieldset class="fieldset-group">
                         <legend>Trading Details</legend>
-                        <label for="inventoryItemsMrp" id="label-mrp"><span id="mrp-span">*</span>MRP:
+                        <label for="inventoryItemsMrp" id="label-mrp">MRP:
+                            <span *ngIf="formInventory.get('iiMrp')?.invalid" class="error-message">
+                                {{ getErrorMessageMrp('iiMrp') }}
+                            </span>
                             <input class="boarder-bottom boarder-roun" id="inventoryItemsMrp" name="inventoryItemsMrp"
                                 type="number" formControlName="iiMrp" required value="0.0" /></label>
-                        <span *ngIf="mrpValidator()"></span>
 
 
-                        <label for="inventoryItemsPurchaseAmount" id="label-purchasePrice"><span
-                                id="purchasePrice-span">*</span>P-Price:
+                        <label for="inventoryItemsPurchaseAmount" id="label-purchasePrice">P-Price:
+                            <span *ngIf="formInventory.get('iiPurchaseAmount')?.invalid" class="error-message">
+                                {{ getErrorMessagePurchase('iiPurchaseAmount') }}
+                            </span>
                             <input class="boarder-bottom boarder-roun" id="inventoryItemsPurchaseAmount"
                                 name="inventoryItemsPurchaseAmount" type="number" formControlName="iiPurchaseAmount"
                                 required value="0.0" /></label>
-                        <span *ngIf="purchasePriceValidator()"></span>
 
 
-                        <label for="inventoryItemsSalesAmount" id="label-salesPrice"><span
-                                id="salesPrice-span">*</span>S-Price:
+                        <label for="inventoryItemsSalesAmount" id="label-salesPrice">S-Price:
+                            <span *ngIf="formInventory.get('iiSalesAmount')?.invalid" class="error-message">
+                                {{ getErrorMessageSales('iiSalesAmount') }}
+                            </span>
                             <input class="boarder-bottom boarder-roun" id="inventoryItemsSalesAmount"
                                 name="inventoryItemsSalesAmount" type="number" formControlName="iiSalesAmount" required
                                 value="0.0" /></label>
-                        <span *ngIf="salesPriceValidator()"></span>
 
 
 
-                        <label for="inventoryItemsCgstPercent" id="label-cgst"><span id="cgst-span">*</span>CGST:
+                        <label for="inventoryItemsCgstPercent" id="label-cgst">CGST:
+                            <span *ngIf="formInventory.get('iiCgstPercent')?.invalid" class="error-message">
+                                {{ getErrorMessageCGST('iiCgstPercent') }}
+                            </span>
                             <input class="boarder-bottom boarder-roun" id="inventoryItemsCgstPercent"
                                 name="inventoryItemsCgstPercent" type="number" formControlName="iiCgstPercent" required
                                 placeholder="18%" /></label>
-                        <span *ngIf="cgstValidator()"></span>
 
 
 
-                        <label for="inventoryItemsSgstPercent" id="label-sgst"><span id="sgst-span">*</span>SGST:
+                        <label for="inventoryItemsSgstPercent" id="label-sgst">SGST:
+                            <span *ngIf="formInventory.get('iiSgstPercent')?.invalid" class="error-message">
+                                {{ getErrorMessageSGST('iiSgstPercent') }}
+                        </span>
                             <input class="boarder-bottom boarder-roun" id="inventoryItemsSgstPercent"
                                 name="inventoryItemsSgstPercent" type="number" formControlName="iiSgstPercent" required
                                 placeholder="18%" /></label>
-                        <span *ngIf="sgstValidator()"></span>
 
-                        <label for="inventoryItemsIgstPercent" id="label-igst"><span id="igst-span">*</span>IGST:
+                        <label for="inventoryItemsIgstPercent" id="label-igst">IGST:
+                            <span *ngIf="formInventory.get('iiIgstPercent')?.invalid" class="error-message">
+                                {{ getErrorMessageIGST('iiIgstPercent') }}
+                            </span>
                             <input class="boarder-bottom boarder-roun" id="inventoryItemsIgstPercent"
                                 name="inventoryItemsIgstPercent" type="number" formControlName="iiIgstPercent" required
                                 placeholder="18%" /></label>
-                        <span *ngIf="igstValidator()"></span>
 
-                        <label for="inventoryItemsTDPercent" id="label-td"><span id="td-span">*</span>Trade Discount
+                        <label for="inventoryItemsTDPercent" id="label-td">Trade Discount
                             Percent:
+                            <span *ngIf="formInventory.get('iiTDPercent')?.invalid" class="error-message">
+                                {{ getErrorMessageTradeDiscount('iiTDPercent') }}
+                            </span>
                             <input class="boarder-bottom boarder-roun" id="inventoryItemsTDPercent"
                                 name="inventoryItemsTDPercent" type="number" formControlName="iiTDPercent" required
                                 placeholder="18%" /></label>
-                        <span *ngIf="tdDiscountValidator()"></span>
 
 
                     </fieldset>
@@ -115,17 +129,21 @@
                     <fieldset class="fieldset-group">
                         <legend>Warranty & Service Details</legend>
 
-                        <label for="iiMonthOfWarranty" id="label-warranty"> <span id="warranty-span">*</span>Select
+                        <label for="iiMonthOfWarranty" id="label-warranty">Select
                             Month Of Warranty:
+                            <span *ngIf="formInventory.get('iiMonthOfWarranty')?.invalid" class="error-message">
+                                {{ getErrorMessageWarranty('iiMonthOfWarranty') }}
+                            </span>
                             <input type="number" id="iiMonthOfWarranty" name="iiMonthOfWarranty"
                                 formControlName="iiMonthOfWarranty" min="0" max="100"></label>
-                        <span *ngIf="warrantyValidator()"></span>
 
-                        <label for="iiNoOfService" id="label-service"><span id="service-span">*</span>Select No. Of Free
-                            Service:
+                        <label for="iiNoOfService" id="label-service">Select No. Of Free
+                                                        Service:
+                                                        <span *ngIf="formInventory.get('iiNoOfService')?.invalid" class="error-message">
+                                                            {{ getErrorMessageMonthOfService('iiNoOfService') }}
+                                                        </span>
                             <input type="number" id="iiNoOfService" name="iiNoOfService" formControlName="iiNoOfService"
                                 min="0" max="100"></label>
-                        <span *ngIf="serviceValidator()"></span>
                     </fieldset>
                     <div class="submit-btn">
                         <button type="button" (click)="formSubmit()">Update</button>

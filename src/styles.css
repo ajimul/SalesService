@@ -8,6 +8,12 @@
 
 }
 
+.error-message {
+    color: red;
+    margin-top: -8px;
+    margin-bottom: 12px;
+  }
+
 .border {
     border: red solid;
 }

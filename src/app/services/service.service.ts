@@ -43,7 +43,7 @@ export class Service {
     // const options = {
     //   withCredentials: true
     // };
-    return this.http.post(`${this.apiServerUrl}authenticate`, usercred);
+    return this.http.post(`${this.apiServerUrl}auth/login`, usercred);
   }
 
   public OriginTest(): Observable<any> {
@@ -219,6 +219,12 @@ export class Service {
   }
   public addInvoiceHeader(invoiceHeader: string): Observable<invoiceHeader>{
     return this.http.post<invoiceHeader>(`${this.apiServerUrl}invoice-headers/add`,invoiceHeader);
+  }
+
+  // 
+  // 
+  saveContact(contact: any): Observable<any> {
+    return this.http.post<any>(`${this.apiServerUrl}contacts`, contact);
   }
 }
 

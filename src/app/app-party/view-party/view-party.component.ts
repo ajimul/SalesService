@@ -11,17 +11,22 @@ import { PartyDetailsDTO } from 'src/app/model/party';
 @Component({
   selector: 'app-view-party',
   templateUrl: './view-party.component.html',
-  styleUrls: ['./view-party.component.css']
+  styleUrls: ['./view-party.component.css'],
 })
 export class ViewPartyComponent implements OnInit {
   searchingParty = '';
-  party: PartyDetailsDTO[] = []
+  party: PartyDetailsDTO[] = [];
 
-  constructor(
-    private service: Service,
-    private dialog: MatDialog,
-  ) { }
-  partyColumns = ['accountName', 'accountId', 'partyContactNo1', 'partyEmailId', 'partyBillingAddress', 'partyShipingAddress', 'action'];
+  constructor(private service: Service, private dialog: MatDialog) {}
+  partyColumns = [
+    'accountName',
+    'accountId',
+    'partyContactNo1',
+    'partyEmailId',
+    'partyBillingAddress',
+    'partyShipingAddress',
+    'action',
+  ];
   dataSourcePartyAccounts = new MatTableDataSource<PartyDetailsDTO>(this.party);
   clickedRowsPartyAccounts = new Set<PartyDetailsDTO>();
   getPartyAccounts() {
@@ -31,31 +36,32 @@ export class ViewPartyComponent implements OnInit {
       },
       error: (e) => console.error(e),
       complete: () => {
-        this.dataSourcePartyAccounts = new MatTableDataSource<PartyDetailsDTO>(this.party);
-      }
-    })
+        this.dataSourcePartyAccounts = new MatTableDataSource<PartyDetailsDTO>(
+          this.party
+        );
+      },
+    });
   }
   openDialogCreateNewPartyAccount() {
     const dialogRef = this.dialog.open(CreatePartyComponent, {
       width: '100%',
       height: '100%',
-      data: []
+      data: [],
     });
 
     dialogRef.afterClosed().subscribe((response: any) => {
       this.getPartyAccounts();
-    })
+    });
   }
   openDialogUpdatePartyAccountsAccount(element: any) {
-
     const dialogRef = this.dialog.open(UpdatePartyComponent, {
       width: '100%',
       height: '100%',
-      data: { element }
+      data: { element },
     });
     dialogRef.afterClosed().subscribe((response: any) => {
       this.getPartyAccounts();
-    })
+    });
   }
   searchingPartyEvent($event: any) {
     this.dataSourcePartyAccounts.filter = $event.target.value;
@@ -64,7 +70,4 @@ export class ViewPartyComponent implements OnInit {
   ngOnInit(): void {
     this.getPartyAccounts();
   }
-
-
-
 }

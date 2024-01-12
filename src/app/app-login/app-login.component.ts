@@ -17,11 +17,12 @@ export class AppLoginComponent implements OnInit {
   ngOnInit(): void {
   }
   loginform = new FormGroup({
-    username: new FormControl(null, Validators.required),
-    password: new FormControl(null, Validators.required)
+    username: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+    tenantOrClientId: new FormControl('', Validators.required),
   });
 
-
+               
   Proceedlogin() {
     if (this.loginform.valid)
     {

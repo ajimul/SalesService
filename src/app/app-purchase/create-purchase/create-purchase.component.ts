@@ -1,7 +1,7 @@
 
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -20,6 +20,8 @@ import { TaxableValue } from 'src/app/model/tax';
 import { TransectionalAccounts } from 'src/app/model/transactional-account';
 import { User } from 'src/app/model/user';
 import { UpdateInventoryItemsDTO } from 'src/app/model/update-inventory';
+import { CustomValidationService } from 'src/app/app-validator/custom-validation-service';
+import { CustomValidation } from 'src/app/app-validator/custom-validation';
 
 
 let taxableValue: TaxableValue[] = [];
@@ -80,6 +82,7 @@ export class CreatePurchaseComponent implements OnInit {
     public dialog: MatDialog,
     private route: Router,
     private service: Service,
+    private validationService: CustomValidationService,
     public fb: FormBuilder) { }
 
 
@@ -92,6 +95,18 @@ export class CreatePurchaseComponent implements OnInit {
       produtcs = [];
       this.totalQty = 0;
       this.totalAmount = 0;
+      this.getTransactionalAccounts();
+      // reinitial from
+      this.purchaseVoucherForm = this.fb.group({
+        transactionalAccount: new FormControl('', [Validators.required,CustomValidation.customSelect()]),
+        transactionAmount: new FormControl('', [Validators.required,CustomValidation.customDecimal()]),//total amount including all tax
+        fieldVoucherNo: new FormControl('', [Validators.required,CustomValidation.customText2()]),
+        fieldVoucherDate: new FormControl(this.formatDate(new Date()),[Validators.required,CustomValidation.customDate()]),
+        fieldTransactionDate: new FormControl(this.formatDate(new Date()),[Validators.required,CustomValidation.customDate()]),
+        fieldPartyAccount: new FormControl('',[Validators.required,CustomValidation.customName()]),//effected account
+        fieldNaration: new FormControl()
+  
+      })
     }
   refresh(){
     this.totalQty = 0;
@@ -106,6 +121,18 @@ export class CreatePurchaseComponent implements OnInit {
     produtcs = [];
     this.dataSourceListOfProduct = new MatTableDataSource<Products>(produtcs);
     this.dataSourceListOfProduct._renderChangesSubscription;
+    this.getTransactionalAccounts();
+     // reinitial from
+     this.purchaseVoucherForm = this.fb.group({
+      transactionalAccount: new FormControl('', [Validators.required,CustomValidation.customSelect()]),
+      transactionAmount: new FormControl('', [Validators.required,CustomValidation.customDecimal()]),//total amount including all tax
+      fieldVoucherNo: new FormControl('', [Validators.required,CustomValidation.customText2()]),
+      fieldVoucherDate: new FormControl(this.formatDate(new Date()),[Validators.required,CustomValidation.customDate()]),
+      fieldTransactionDate: new FormControl(this.formatDate(new Date()),[Validators.required,CustomValidation.customDate()]),
+      fieldPartyAccount: new FormControl('',[Validators.required,CustomValidation.customName()]),//effected account
+      fieldNaration: new FormControl()
+
+    })
   }
   ngOnInit(): void {
     this.getTransactionalAccounts();
@@ -117,17 +144,25 @@ export class CreatePurchaseComponent implements OnInit {
     // this.getUser();
     //identifying the trnsection
     this.purchaseVoucherForm = this.fb.group({
-      transactionalAccount: new FormControl(),
-      transactionAmount: new FormControl(),//total amount including all tax
-      fieldVoucherNo: new FormControl(),
-      fieldVoucherDate: new FormControl(),
-      fieldTransactionDate: new FormControl(),
-      fieldPartyAccount: new FormControl(),//effected account
+      transactionalAccount: new FormControl('', [Validators.required,CustomValidation.customSelect()]),
+      transactionAmount: new FormControl('', [Validators.required,CustomValidation.customDecimal()]),//total amount including all tax
+      fieldVoucherNo: new FormControl('', [Validators.required,CustomValidation.customText2()]),
+      fieldVoucherDate: new FormControl(this.formatDate(new Date()),[Validators.required,CustomValidation.customDate()]),
+      fieldTransactionDate: new FormControl(this.formatDate(new Date()),[Validators.required,CustomValidation.customDate()]),
+      fieldPartyAccount: new FormControl('',[Validators.required,CustomValidation.customName()]),//effected account
       fieldNaration: new FormControl()
 
     })
 
 
+  }
+
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-based
+    const year = date.getFullYear();
+  
+    return `${year}-${month}-${day}`;
   }
 
   // ********************************************-------purchase voucher form-------************************************************ 
@@ -578,7 +613,8 @@ export class CreatePurchaseComponent implements OnInit {
     this.filterProductName = '';// input field search product name clear
     this.dataSourceListOfProduct = new MatTableDataSource<Products>(produtcs);//adding product data on product table
     this.dataSourceListOfProduct._renderChangesSubscription;
-    this.dataSourceStock.filter = "";//filter clear
+    this.dataSourceStock.filter = "";//filter clear*****
+
   }
 
   // ******************************************************************************************************************************* 
@@ -588,33 +624,12 @@ export class CreatePurchaseComponent implements OnInit {
   dataSourceTaxableTable = new MatTableDataSource<TaxableValue>(taxableValue);
   clickedRowsSubtotal = new Set<TaxableValue>();
 
-  get transactionalAccount() {
-    return this.purchaseVoucherForm.get('transactionalAccount');
-  }
-  get transactionAmount() {
-    return this.purchaseVoucherForm.get('transactionAmount');
-  }
-  get fieldNaration() {
-    return this.purchaseVoucherForm.get('fieldNaration');
-  }
-  get fieldVoucherNo() {
-    return this.purchaseVoucherForm.get('fieldVoucherNo');
-  }
-  get fieldVoucherDate() {
-    return this.purchaseVoucherForm.get('fieldVoucherDate');
-  }
-  get fieldTransactionDate() {
-    return this.purchaseVoucherForm.get('fieldTransactionDate');
-  }
-  get fieldPartyAccount() {
-    return this.purchaseVoucherForm.get('fieldPartyAccount');
-  }
 
   voucherSubmit() {
 
     let transectionalAccounts: TransectionalAccounts = {
-      transactionAccountName: this.transactionalAccount?.value,
-      transactionAmount: this.transactionAmount?.value
+      transactionAccountName: this.purchaseVoucherForm.get('transactionalAccount')?.value,
+      transactionAmount:this.purchaseVoucherForm.get('transactionAmount')?.value
     }
 
 
@@ -652,8 +667,8 @@ export class CreatePurchaseComponent implements OnInit {
       })
       inventoryJournal.push({
         ij_iiId: produtcs[i].productNo,//ij_iiId is the gurenge  key and here productNo is the Id of the InventoryItems
-        ijDate: String(this.fieldTransactionDate?.value),
-        ijPartyName: this.fieldPartyAccount?.value,
+        ijDate: String(this.purchaseVoucherForm.get('fieldTransactionDate')?.value),
+        ijPartyName: this.purchaseVoucherForm.get('fieldPartyAccount')?.value,
         ijVoucherType: "Purchase",
         // ijVoucherNo: 0,//Voucher no Will be Set by API Implementation
         ijInwardQty: produtcs[i].productQty,
@@ -665,32 +680,40 @@ export class CreatePurchaseComponent implements OnInit {
     }
     purchase = {
       userId: 1,
-      partyAcName: this.fieldPartyAccount?.value,
-      invoiceNo: this.fieldVoucherNo?.value,
-      invoiceDate: this.fieldVoucherDate?.value,
-      transectionDate: this.fieldTransactionDate?.value,
-      naration: this.fieldNaration?.value,
+      partyAcName: this.purchaseVoucherForm.get('fieldPartyAccount')?.value,
+      invoiceNo: this.purchaseVoucherForm.get('fieldVoucherNo')?.value,
+      invoiceDate: this.purchaseVoucherForm.get('fieldVoucherDate')?.value,
+      transectionDate: this.purchaseVoucherForm.get('fieldTransactionDate')?.value,
+      naration: this.purchaseVoucherForm.get('fieldNaration')?.value,
       transectionalAccounts,
       bookDetails,
       inventoryJournal: inventoryJournal,
       accountId: this.accountId
     }
+    if(this.purchaseVoucherForm.valid){
     let isSuccess: boolean = false;
     this.service.addPurchase(purchase).subscribe({
       next: (value) => {
 
       },
-      error: (_err) => {
-        let x: any = _err
-        alert('Transaction Failed!')
+      error: (err) => {      
+      if (err.status === 400) {
+        alert('Transaction Failed! Please check your input data.');
+      } else if (err.status === 401) {
+        alert('Authentication failed. Please log in.');
+      } else {
+        alert('Transaction Failed! Something went wrong. Please try again later.');
+      }
       },
       complete: () => {
         alert("Transaction Successful!")
         this.refresh();
       }
     })
-
   }
+  else{
+    alert('Transaction Failed! Please fill in all required fields.');
+  }}
   calculatePercent(price: number, percentage: number): number {
     return (price * (percentage) / 100);
   }
@@ -716,6 +739,59 @@ export class CreatePurchaseComponent implements OnInit {
     this.getStocks();
    
 
+  }
+
+  // Validation
+  getErrorMessagePartyName(controlName: string): string | null {
+    const control = this.purchaseVoucherForm.get(controlName);
+    return control
+      ? this.validationService.getErrorMessageName(
+          control,
+          '*',
+          '*',
+          '*',
+          '*',
+          '*'
+        )
+      : null;
+  }
+  getErrorMessageTransectionDate(controlName: string): string | null {
+    const control = this.purchaseVoucherForm.get(controlName);
+    return control
+      ? this.validationService.getErrorMessageDate(
+          control,
+          '*',
+          '*'
+        )
+      : null;
+  }
+  getErrorMessageVoucherDate(controlName: string): string | null {
+    const control = this.purchaseVoucherForm.get(controlName);
+    return control
+      ? this.validationService.getErrorMessageDate(
+          control,
+          '*',
+          '*'
+        )
+      : null;
+  }
+  getErrorMessageSelectTransectionAcc(controlName: string): string | null {
+    const control = this.purchaseVoucherForm.get(controlName);
+    return control
+      ? this.validationService.getErrorMessageSelect(control, '*')
+      : null;
+  }
+  getErrorMessageTransectionAmount(controlName: string): string | null {
+    const control = this.purchaseVoucherForm.get(controlName);
+    return control
+      ? this.validationService.getErrorMessageNumberDecimal(control, '*','*','*','*')
+      : null;
+  }
+  getErrorMessageVoucherNo(controlName: string): string | null {
+    const control = this.purchaseVoucherForm.get(controlName);
+    return control
+      ? this.validationService.getErrorMessageText1(control, '*','*','*')
+      : null;
   }
 
 }

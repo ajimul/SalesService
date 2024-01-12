@@ -12,10 +12,13 @@
         <fieldset class="fieldset-group">
           <legend>Personal Details</legend>
 
-          <label for="name" id="labelName"><span id="name-span">* </span>Name:
+          <label for="name" id="labelName">Name:
+            <span *ngIf="employeeForm.get('accountName')?.invalid" class="error-message">
+              {{ getErrorMessageName('accountName') }}
+            </span>
             <input id="name" name="name" type="text" formControlName="accountName" />
           </label>
-          <span *ngIf="nameValid()"></span>
+
 
           <label for="dob">Date Of Birth: <input type="date" id="dob" name="dob" formControlName="empDob"></label>
 
@@ -28,10 +31,14 @@
           <label for="panNo">Pan Card No.: <input type="text" id="panNo" name="panNo"
               formControlName="empPanNo"></label>
 
-          <label for="mobile1" id="labelMobile1"><span id="mobile1-span">*</span>Contact No 1:
+
+              
+          <label for="mobile1" id="labelMobile1">Contact No 1:
+            <span *ngIf="employeeForm.get('empContactNo1')?.invalid" class="error-message">
+              {{ getErrorMessageMobileNumber('empContactNo1') }}
+            </span>
             <input id="mobile1" name="mobile1" type="text" formControlName="empContactNo1" /></label>
 
-          <span *ngIf="mobileNoValidator()"></span>
           <label for="mobile2">Contact No 2:
             <input id="mobile2" name="mobile2" type="text" formControlName="empContactNo2" /></label>
 

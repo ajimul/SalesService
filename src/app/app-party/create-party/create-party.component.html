@@ -12,10 +12,14 @@
         <fieldset class="fieldset-group">
           <legend>Personal Details</legend>
 
-          <label for="name" id="labelName"><span id="name-span">* </span>Name:
+          <label for="name" id="labelName">Name: 
+            <span *ngIf="partyForm.get('accountName')?.invalid" class="error-message">
+              {{ getErrorMessageName('accountName') }}
+            </span>
+
             <input id="name" name="name" type="text" formControlName="accountName" />
           </label>
-          <span *ngIf="nameValid()"></span>
+
 
           <label for="dob">Date Of Birth: <input type="date" id="dob" name="dob" formControlName="partyDob"
               [ngModel]="date| date:'yyyy-MM-dd'"></label>
@@ -29,10 +33,13 @@
           <label for="panNo">Pan Card No.: <input type="text" id="panNo" name="panNo"
               formControlName="partyPanNo"></label>
 
-          <label for="mobile1" id="labelMobile1"><span id="mobile1-span">*</span>Contact No 1:
+          <label for="mobile1" id="labelMobile1">Contact No 1:
+            <span *ngIf="partyForm.get('partyContactNo1')?.invalid" class="error-message">
+              {{ getErrorMessageMobileNumber('partyContactNo1') }}
+            </span>
             <input id="mobile1" name="mobile1" type="text" formControlName="partyContactNo1" /></label>
-            <span *ngIf="mobileNoValidator()"></span>
-            
+        
+
           <label for="mobile2">Contact No 2:
             <input id="mobile2" name="mobile2" type="text" formControlName="partyContactNo2" /></label>
 
@@ -51,7 +58,7 @@
               <label for="bilAdd1">Billing&nbsp;Address:</label>
             </div>
 
-            <textarea id="bbilAdd1" name="bilAdd1" formControlName="partyBillingAddress"  rows="4" cols="32">
+            <textarea id="bbilAdd1" name="bilAdd1" formControlName="partyBillingAddress" rows="4" cols="32">
             </textarea>
           </div>
 
@@ -61,7 +68,7 @@
               <label for="bilAdd2">Shiping&nbsp;Address&nbsp;Same&nbsp;As&nbsp;Billing&nbsp;Address:</label>
               <input type="checkbox" id="sameAddress" class="checkbox" (change)="sameAddress($event)">
             </div>
-            <textarea id="bilAdd2" name="bilAdd2" formControlName="partyShipingAddress"  rows="4" cols="32"></textarea>
+            <textarea id="bilAdd2" name="bilAdd2" formControlName="partyShipingAddress" rows="4" cols="32"></textarea>
           </div>
 
         </fieldset>

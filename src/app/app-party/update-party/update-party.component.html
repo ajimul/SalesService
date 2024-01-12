@@ -12,11 +12,12 @@
         <fieldset class="fieldset-group">
           <legend>Personal Details</legend>
 
-          <label for="name" id="labelName"><span id="name-span">* </span>Name:
+          <label for="name" id="labelName">Name:
+            <span *ngIf="partyForm.get('accountName')?.invalid" class="error-message">
+              {{ getErrorMessageName('accountName') }}
+            </span>
             <input id="name" name="name" type="text" formControlName="accountName" />
           </label>
-          <span *ngIf="nameValid()"></span>
-
           <label for="dob">Date Of Birth: <input type="date" id="dob" name="dob" formControlName="partyDob"></label>
 
           <label for="blood">Blood Group: <input type="text" id="blood" name="blood"
@@ -28,9 +29,12 @@
           <label for="panNo">Pan Card No.: <input type="text" id="panNo" name="panNo"
               formControlName="partyPanNo"></label>
 
-              <label for="mobile1" id="labelMobile1"><span id="mobile1-span">*</span>Contact No 1:
-                <input id="mobile1" name="mobile1" type="text" formControlName="partyContactNo1" /></label>
-                <span *ngIf="mobileNoValidator()"></span>
+          <label for="mobile1" id="labelMobile1">
+            Contact No 1:
+            <span *ngIf="partyForm.get('partyContactNo1')?.invalid" class="error-message">
+              {{ getErrorMessageMobileNumber('partyContactNo1') }}
+            </span>
+            <input id="mobile1" name="mobile1" type="text" formControlName="partyContactNo1" /></label>
 
           <label for="mobile2">Contact No 2:
             <input id="mobile2" name="mobile2" type="text" formControlName="partyContactNo2" /></label>

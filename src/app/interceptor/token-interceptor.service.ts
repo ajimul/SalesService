@@ -34,6 +34,7 @@ export class AuthInterceptor implements HttpInterceptor {
         setHeaders: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem("token"),
+        // 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZW1vIiwiYXVkIjoiMSIsInNjb3BlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaXNzIjoic3lzdGVtIiwiaWF0IjoxNzA0NjM2MDExLCJleHAiOjE3MDQ2NTQwMTF9.eBw6S55eaAIF1QFYaGPOGn4oQpZOTeBX2bumXUxc0ws'
         }
       });
       return next.handle(authReq);
