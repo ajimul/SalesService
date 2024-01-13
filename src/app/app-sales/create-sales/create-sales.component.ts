@@ -79,7 +79,7 @@ export class CreateSalesComponent implements OnInit {
 
   emiProcessingFee: number = 0;
   downPaymet: number = 0;
-  installmentRangeNumber: number = 4;
+  installmentRangeNumber: number = 1;
   installmentAmount: number = 0;
 
   dilogData: any
@@ -109,22 +109,7 @@ export class CreateSalesComponent implements OnInit {
       emi = [];
       productServices= [];
       this.getTransactionalAccounts();
-      this.emiForm = this.fb.group({
-        emiProcessingFee: new FormControl(),
-        downPaymet: new FormControl(),//total amount including all tax
-        installmentRangeNumber: new FormControl(this.installmentRangeNumber),
-        installmentAmount: new FormControl(this.installmentAmount),
-        installmentDate: new FormControl(this.currentDate),
-        noOfService: new FormControl(),
-  
-      })
-      this.salesVoucherForm = this.fb.group({
-        transactionalAccount: new FormControl('', [Validators.required,CustomValidation.customSelect()]),
-        transactionAmount: new FormControl('', [Validators.required,CustomValidation.customDecimal()]),//total amount including all tax
-        fieldTransactionDate: new FormControl(this.formatDate(new Date()),[Validators.required,CustomValidation.customDate()]),
-        fieldPartyAccount: new FormControl('',[Validators.required,CustomValidation.customName()]),//effected account
-        fieldNaration: new FormControl()
-      })
+
     }
   refresh(){
     this.totalQty = 0;
@@ -149,13 +134,12 @@ export class CreateSalesComponent implements OnInit {
       this.dataSourceServiceTable._renderChangesSubscription;
       this.getTransactionalAccounts();
       this.emiForm = this.fb.group({
-        emiProcessingFee: new FormControl(),
-        downPaymet: new FormControl(),//total amount including all tax
-        installmentRangeNumber: new FormControl(this.installmentRangeNumber),
-        installmentAmount: new FormControl(this.installmentAmount),
-        installmentDate: new FormControl(this.currentDate),
+        emiProcessingFee: new FormControl('', [Validators.required,CustomValidation.customNumber()]),
+        downPaymet: new FormControl('', [Validators.required,CustomValidation.customNumber()]),//total amount including all tax
+        installmentRangeNumber: new FormControl(this.installmentRangeNumber, [Validators.required,CustomValidation.customNumberMin1()]),
+        installmentAmount: new FormControl(this.installmentAmount, [Validators.required,CustomValidation.customDecimal()]),
+        installmentDate: new FormControl(this.formatDate(new Date()),[Validators.required,CustomValidation.customDate()]),
         noOfService: new FormControl(),
-  
       })
       this.salesVoucherForm = this.fb.group({
         transactionalAccount: new FormControl('', [Validators.required,CustomValidation.customSelect()]),
@@ -190,13 +174,12 @@ export class CreateSalesComponent implements OnInit {
 
     // Emi and Service Implements
     this.emiForm = this.fb.group({
-      emiProcessingFee: new FormControl(),
-      downPaymet: new FormControl(),//total amount including all tax
-      installmentRangeNumber: new FormControl(this.installmentRangeNumber),
-      installmentAmount: new FormControl(),
-      installmentDate: new FormControl(this.currentDate),
+      emiProcessingFee: new FormControl('', [Validators.required,CustomValidation.customNumber()]),
+      downPaymet: new FormControl('', [Validators.required,CustomValidation.customNumber()]),//total amount including all tax
+      installmentRangeNumber: new FormControl(this.installmentRangeNumber, [Validators.required,CustomValidation.customNumberMin1()]),
+      installmentAmount: new FormControl(this.installmentAmount, [Validators.required,CustomValidation.customDecimal()]),
+      installmentDate: new FormControl(this.formatDate(new Date()),[Validators.required,CustomValidation.customDate()]),
       noOfService: new FormControl(),
-
     })
 
   }
@@ -716,6 +699,7 @@ export class CreateSalesComponent implements OnInit {
   clickedRowsService = new Set<ProductServices>();
 
   isEmi() {
+
     if (this.salesVoucherForm.get('transactionalAccount')?.value === 'default') {
       console.log('Default value is selected.');
       this.emiFormDisplay = "display:none";
@@ -724,34 +708,28 @@ export class CreateSalesComponent implements OnInit {
     } else if (this.salesVoucherForm.get('transactionalAccount')?.value === 'Sundry Debtors') {
       this.emiFormDisplay = "display:block";
       this.emiTableDisplay = "display:block";
+      if(Number(this.salesVoucherForm.get('transactionAmount')?.value) <= 0){
+        this.installmentRangeNumber=1;
+      }
       this.calculateEmi();
 
 
     } 
     else {
-      if (Number(this.salesVoucherForm.get('transactionAmount')?.value) != 0) {
         this.calculateService();
-      }
-      this.serviceTableDisplay = "display:block";
-      this.emiFormDisplay = "display:none";
-      this.emiTableDisplay = "display:none";
+     
 
 
     }
 
-    if (this.salesVoucherForm.get('transactionAmount')?.value !== 0) {
-
-    }
 
   }
   // re-initialized service,emi
   calculateEmi() {
-    if (Number(this.salesVoucherForm.get('transactionAmount')?.value) != 0 && String(this.installmentRangeNumber) != "" && this.installmentRangeNumber != null) {
-
-      this.installmentAmount = 0;
+this.installmentAmount = 0;
       emi = [];
       productServices = [];
-      if (Number(this.emiProcessingFee) !== 0 && Number(this.downPaymet) !== 0) {
+      if (Number(this.salesVoucherForm.get('transactionAmount')?.value) != 0 &&Number(this.emiProcessingFee) !== 0 && Number(this.downPaymet) !== 0) {
         if (Number(this.installmentRangeNumber) !== 0) {
           this.installmentAmount += ((Number(this.salesVoucherForm.get('transactionAmount')?.value) + Number((this.emiProcessingFee))) -
             Number((this.downPaymet))) / Number((this.installmentRangeNumber));
@@ -764,7 +742,6 @@ export class CreateSalesComponent implements OnInit {
           this.installmentAmount += Number(this.salesVoucherForm.get('transactionAmount')?.value) / Number(this.installmentRangeNumber);
         } else {
           this.installmentAmount += Number(this.salesVoucherForm.get('transactionAmount')?.value);
-
         }
       }
       else if (Number(this.emiProcessingFee) !== 0 && Number(this.downPaymet) === 0) {
@@ -819,7 +796,7 @@ export class CreateSalesComponent implements OnInit {
       this.dataSourceServiceTable = new MatTableDataSource<ProductServices>(productServices);
       this.dataSourceServiceTable._renderChangesSubscription;
       this.clickedRowsService = new Set<ProductServices>();
-    }
+    
   }
   // re-initialized service
   calculateService() {
@@ -1011,6 +988,41 @@ getErrorMessageTransectionAmount(controlName: string): string | null {
   const control = this.salesVoucherForm.get(controlName);
   return control
     ? this.validationService.getErrorMessageNumberDecimal(control, '*','*','*','*')
+    : null;
+}
+// Emi validation
+getErrorMessageEmiProcessingFee(controlName: string): string | null {
+  const control = this.emiForm.get(controlName);
+  return control
+    ? this.validationService.getErrorMessageNumber(control, '*','*')
+    : null;
+}
+getErrorMessageDdownPaymet(controlName: string): string | null {
+  const control = this.emiForm.get(controlName);
+  return control
+    ? this.validationService.getErrorMessageNumber(control, '*','*')
+    : null;
+}
+getErrorMessageInstallmentRangeMinNumber(controlName: string): string | null {
+  const control = this.emiForm.get(controlName);
+  return control
+    ? this.validationService.getErrorMessageNumberMin(control, '*','*')
+    : null;
+}
+getErrorMessageInstallmentAmount(controlName: string): string | null {
+  const control = this.emiForm.get(controlName);
+  return control
+    ? this.validationService.getErrorMessageNumber(control, '*','*')
+    : null;
+}
+getErrorMessageInstallmentDate(controlName: string): string | null {
+  const control = this.emiForm.get(controlName);
+  return control
+    ? this.validationService.getErrorMessageDate(
+        control,
+        '*',
+        '*'
+      )
     : null;
 }
 }

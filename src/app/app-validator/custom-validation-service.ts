@@ -37,7 +37,15 @@ export class CustomValidationService {
   }
 
   getErrorMessageNumber(control: AbstractControl,sms1:string,sms2:string): string | null {
-    console.log(control.value)
+    if (control.hasError('required')) {
+      return sms1;
+    }
+    if (control.hasError('requiredNumber')) {
+      return sms2;
+    }
+    return null;
+  }
+  getErrorMessageNumberMin(control: AbstractControl,sms1:string,sms2:string): string | null {
     if (control.hasError('required')) {
       return sms1;
     }

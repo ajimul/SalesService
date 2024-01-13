@@ -14,7 +14,11 @@
                 <div class="party-dtl-flex gap12px " [formGroup]="amcVoucherForm">
                     <div class="flex-col  width100">
                         <div> <label for="partyAc" class="label100">
-                                <strong>Party A/c Name :</strong> </label>
+                                <strong>Party A/c Name :
+                                    <span *ngIf="amcVoucherForm.get('fieldPartyAccount')?.invalid" class="error-message">
+                                        {{ getErrorMessagePartyName('fieldPartyAccount') }}
+                                      </span>
+                                </strong> </label>
                         </div>
                         <div>
                             <input autocomplete="off" formControlName="fieldPartyAccount" id="partyAc" name="partyAc"
@@ -29,7 +33,11 @@
                                                       
                     <div class="flex-col  width100">
                         <div>
-                            <label for="transactionDate" class="label100"><strong> Transaction date :</strong> </label>
+                            <label for="transactionDate" class="label100"><strong> Transaction date 
+                                <span *ngIf="amcVoucherForm.get('fieldTransactionDate')?.invalid" class="error-message">
+                                    {{ getErrorMessageTransectionDate('fieldTransactionDate') }}
+                                  </span>
+                                :</strong> </label>
                         </div>
                         <div>
                             <input id="transactionDate" formControlName="fieldTransactionDate" name="first-name"
@@ -557,7 +565,11 @@
                 <div class="extra-charges-flex gap10px">
                     <div class="width100 flex-clo gap10px">
                         <div class="margin-right5px">
-                            <label for="extAmount"><strong>Payable&nbsp;Amount&nbsp;: </strong></label>
+                            <label for="extAmount"><strong>Payable&nbsp;Amount&nbsp;:
+                                <span *ngIf="amcVoucherForm.get('transactionAmount')?.invalid" class="error-message">
+                                    {{ getErrorMessageTransectionAmount('transactionAmount') }}
+                                </span>
+                            </strong></label>
                         </div>
                         <div class="width100">
                             <input formControlName="transactionAmount" type="text" id="extAmount" placeholder="0.0"
@@ -566,11 +578,16 @@
                     </div>
                     <div class="width100 flex-clo gap10px">
                         <div class="margin-right5px">
-                            <label for="extDescription"> <strong>Transaction&nbsp;By&nbsp;:</strong></label>
+                            <label for="extDescription"> <strong>Transaction&nbsp;By&nbsp;:
+                                <span *ngIf="amcVoucherForm.get('transactionalAccount')?.invalid" class="error-message">
+                                    {{ getErrorMessageSelectTransectionAcc('transactionalAccount') }}
+                                </span>
+                            </strong></label>
                         </div>
                         <div class="width100">
                             <select id="transactionMode" formControlName="transactionalAccount" (change)="isEmi()"
                                 class="select100">
+                                <option value="default">--</option>
                                 <option *ngFor="let list of accountList; let i = index" value={{list.accountName}}>
                                     {{list.accountName}}</option>
                             </select>

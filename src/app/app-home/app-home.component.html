@@ -2,18 +2,18 @@
       <div class="aside-container">
             <aside>
                   <nav>
-                        <header>
+                        <header >
 
-                              <div class="nav-hambergar" id="hambergar">
-                                    <div class="hambergar">
+                              <div class="nav-hambergar" id="hambergar" >
+                                    <div class="hambergar" >
                                           <button class="hamberbutton" (click)="sidebar_Open_Closer()"><i
                                                       class="fa-solid fa-bars"></i></button>
                                     </div>
                               </div>
-
                               <div class="nav-logo">
                                     <div class="logo">
-                                          <p>Spot Solution</p>
+                                          <p>Welcome!</p>
+                                          <p>{{organizationName}}</p>
                                     </div>
                               </div>
                               <div class="nav-profile">
@@ -21,9 +21,6 @@
                                           <p (click)="logout()">Logout</p>
                                     </div>
                               </div>
-
-
-
                         </header>
 
                         <div>
@@ -33,29 +30,29 @@
                         <div class="aside-menue-contailne bg">
                               <div class="aside-menue-full ">
                                     <div class="menue-stock" [routerLinkActive]="'active'"><a
-                                                routerLink="dashboard"><button ><i class="fa fa-home"
+                                                routerLink="dashboard"><button><i class="fa fa-home"
                                                             aria-hidden="true"></i>
                                                       Dashboard</button> </a></div>
 
                                     <div class="menue-stock" [routerLinkActive]="'active'"><a
-                                                routerLink="viewParty"><button ><i class="fa-solid fa-user"></i>
+                                                routerLink="viewParty"><button><i class="fa-solid fa-user"></i>
                                                       Add Party</button> </a></div>
 
                                     <!-- <div class="menue-stock" [routerLinkActive]="'active'" ><a  routerLink="viewUser"><button ><i class="fa fa-home" aria-hidden="true"></i>
                        Add User</button> </a></div> -->
 
                                     <div class="menue-stock" [routerLinkActive]="'active'"> <a
-                                                routerLink="viewEmployee"><button ><i
+                                                routerLink="viewEmployee"><button><i
                                                             class="fa-regular fa-circle-user"></i>Add
                                                       Employee</button> </a></div>
 
                                     <div class="menue-stock" [routerLinkActive]="'active'"><a
-                                                routerLink="viewStock"><button ><i class="fa fa-cubes"
+                                                routerLink="viewStock"><button><i class="fa fa-cubes"
                                                             aria-hidden="true"></i>
                                                       Stock</button> </a></div>
 
                                     <div class="menue-stock" [routerLinkActive]="'active'"><a
-                                                routerLink="purchaseEntry"><button >
+                                                routerLink="purchaseEntry"><button>
                                                       <i class="fa-solid fa-cart-shopping"></i>
                                                       Purchase
                                                 </button>
@@ -64,40 +61,40 @@
 
                                     <div class="menue-stock" [routerLinkActive]="'active'">
                                           <a routerLink="salesEntry">
-                                                <button >
+                                                <button>
                                                       <i class="fa-solid fa-chart-line"></i>
                                                       Sales
                                                 </button>
                                           </a>
                                     </div>
 
-                                    <div class="menue-stock" [routerLinkActive]="'active'"><a
+                                    <!-- <div class="menue-stock" [routerLinkActive]="'active'"><a
                                                 routerLink="amcEntry"><button >
                                                       <i class="fa-solid fa-hammer"></i>
                                                       Add AMC
-                                                </button> </a></div>
+                                                </button> </a></div> -->
                                     <div class="menue-stock" [routerLinkActive]="'active'"><a
-                                                routerLink="emiCollect"><button >
+                                                routerLink="emiCollect"><button>
                                                       <i class="fa-solid fa-indian-rupee-sign"></i>
                                                       Emi-Collection
                                                 </button> </a></div>
                                     <div class="menue-stock" [routerLinkActive]="'active'"><a
-                                                routerLink="paySalary"><button >
+                                                routerLink="paySalary"><button>
                                                       <i class="fa-solid fa-indian-rupee-sign"></i>
                                                       Salary
                                                 </button> </a></div>
                                     <!-- <div class="menue-stock" [routerLinkActive]="'active'" ><a  routerLink="expences"><button ><i class="fa fa-cubes" aria-hidden="true"></i> Expences
                       </button> </a></div> -->
                                     <div class="menue-stock" [routerLinkActive]="'active'"><a
-                                                routerLink="emi-control"><button ><i class="fa-solid fa-gears"></i>
+                                                routerLink="emi-control"><button><i class="fa-solid fa-gears"></i>
                                                       Emi-Control
                                                 </button> </a></div>
                                     <div class="menue-stock" [routerLinkActive]="'active'"><a
-                                                routerLink="service-control"><button ><i
+                                                routerLink="service-control"><button><i
                                                             class="fa-solid fa-gears"></i>Service-Control
                                                 </button> </a></div>
                                     <div class="menue-stock" [routerLinkActive]="'active'"><a
-                                                routerLink="print-voucher"><button >
+                                                routerLink="print-voucher"><button>
                                                       <i class="fa-sharp fa-solid fa-print"></i>
                                                       Print-Voucher
                                                 </button> </a></div>
@@ -107,73 +104,75 @@
                               <div class="aside-menue-small" *ngIf="sidebar">
                                     <!-- <button (click)="sidebar_open_close()">Test</button> -->
                                     <div class="menue-stock" [routerLinkActive]="'active'"><a
-                                          routerLink="dashboard"><button (click)="menue_click()"><i class="fa fa-home"
-                                                      aria-hidden="true"></i>
-                                                Dashboard</button> </a></div>
+                                                routerLink="dashboard"><button (click)="menue_click()"><i
+                                                            class="fa fa-home" aria-hidden="true"></i>
+                                                      Dashboard</button> </a></div>
 
-                              <div class="menue-stock" [routerLinkActive]="'active'"><a
-                                          routerLink="viewParty"><button (click)="menue_click()"><i class="fa-solid fa-user"></i>
-                                                Add Party</button> </a></div>
+                                    <div class="menue-stock" [routerLinkActive]="'active'"><a
+                                                routerLink="viewParty"><button (click)="menue_click()"><i
+                                                            class="fa-solid fa-user"></i>
+                                                      Add Party</button> </a></div>
 
-                              <!-- <div class="menue-stock" [routerLinkActive]="'active'" ><a  routerLink="viewUser"><button ><i class="fa fa-home" aria-hidden="true"></i>
+                                    <!-- <div class="menue-stock" [routerLinkActive]="'active'" ><a  routerLink="viewUser"><button ><i class="fa fa-home" aria-hidden="true"></i>
                  Add User</button> </a></div> -->
 
-                              <div class="menue-stock" [routerLinkActive]="'active'"> <a
-                                          routerLink="viewEmployee"><button (click)="menue_click()"><i
-                                                      class="fa-regular fa-circle-user"></i>Add
-                                                Employee</button> </a></div>
+                                    <div class="menue-stock" [routerLinkActive]="'active'"> <a
+                                                routerLink="viewEmployee"><button (click)="menue_click()"><i
+                                                            class="fa-regular fa-circle-user"></i>Add
+                                                      Employee</button> </a></div>
 
-                              <div class="menue-stock" [routerLinkActive]="'active'"><a
-                                          routerLink="viewStock"><button (click)="menue_click()"><i class="fa fa-cubes"
-                                                      aria-hidden="true"></i>
-                                                Stock</button> </a></div>
+                                    <div class="menue-stock" [routerLinkActive]="'active'"><a
+                                                routerLink="viewStock"><button (click)="menue_click()"><i
+                                                            class="fa fa-cubes" aria-hidden="true"></i>
+                                                      Stock</button> </a></div>
 
-                              <div class="menue-stock" [routerLinkActive]="'active'"><a
-                                          routerLink="purchaseEntry"><button (click)="menue_click()">
-                                                <i class="fa-solid fa-cart-shopping"></i>
-                                                Purchase
-                                          </button>
-                                    </a>
-                              </div>
-                                                            <div class="menue-stock" [routerLinkActive]="'active'">
-                                    <a routerLink="salesEntry">
-                                          <button (click)="menue_click()">
-                                                <i class="fa-solid fa-chart-line"></i>
-                                                Sales
-                                          </button>
-                                    </a>
-                              </div>
+                                    <div class="menue-stock" [routerLinkActive]="'active'"><a
+                                                routerLink="purchaseEntry"><button (click)="menue_click()">
+                                                      <i class="fa-solid fa-cart-shopping"></i>
+                                                      Purchase
+                                                </button>
+                                          </a>
+                                    </div>
+                                    <div class="menue-stock" [routerLinkActive]="'active'">
+                                          <a routerLink="salesEntry">
+                                                <button (click)="menue_click()">
+                                                      <i class="fa-solid fa-chart-line"></i>
+                                                      Sales
+                                                </button>
+                                          </a>
+                                    </div>
 
-                              <div class="menue-stock" [routerLinkActive]="'active'"><a
+                                    <!-- <div class="menue-stock" [routerLinkActive]="'active'"><a
                                           routerLink="amcEntry"><button (click)="menue_click()">
                                                 <i class="fa-solid fa-hammer"></i>
                                                 Add AMC
-                                          </button> </a></div>
-                              <div class="menue-stock" [routerLinkActive]="'active'"><a
-                                          routerLink="emiCollect"><button (click)="menue_click()">
-                                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                                                Emi-Collection
-                                          </button> </a></div>
-                              <div class="menue-stock" [routerLinkActive]="'active'"><a
-                                          routerLink="paySalary"><button (click)="menue_click()">
-                                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                                                Salary
-                                          </button> </a></div>
-                              <!-- <div class="menue-stock" [routerLinkActive]="'active'" ><a  routerLink="expences"><button ><i class="fa fa-cubes" aria-hidden="true"></i> Expences
+                                          </button> </a></div> -->
+                                    <div class="menue-stock" [routerLinkActive]="'active'"><a
+                                                routerLink="emiCollect"><button (click)="menue_click()">
+                                                      <i class="fa-solid fa-indian-rupee-sign"></i>
+                                                      Emi-Collection
+                                                </button> </a></div>
+                                    <div class="menue-stock" [routerLinkActive]="'active'"><a
+                                                routerLink="paySalary"><button (click)="menue_click()">
+                                                      <i class="fa-solid fa-indian-rupee-sign"></i>
+                                                      Salary
+                                                </button> </a></div>
+                                    <!-- <div class="menue-stock" [routerLinkActive]="'active'" ><a  routerLink="expences"><button ><i class="fa fa-cubes" aria-hidden="true"></i> Expences
                 </button> </a></div> -->
-                              <div class="menue-stock" [routerLinkActive]="'active'"><a
-                                          routerLink="emi-control"><button (click)="menue_click()"><i class="fa-solid fa-gears"></i>
-                                                Emi-Control
-                                          </button> </a></div>
-                              <div class="menue-stock" [routerLinkActive]="'active'"><a
-                                          routerLink="service-control"><button (click)="menue_click()"><i
-                                                      class="fa-solid fa-gears"></i>Service-Control
-                                          </button> </a></div>
-                              <div class="menue-stock" [routerLinkActive]="'active'"><a
-                                          routerLink="print-voucher"><button (click)="menue_click()">
-                                                <i class="fa-sharp fa-solid fa-print"></i>
-                                                Print-Voucher
-                                          </button> </a></div>
+                                    <div class="menue-stock" [routerLinkActive]="'active'"><a
+                                                routerLink="emi-control"><button (click)="menue_click()"><i
+                                                            class="fa-solid fa-gears"></i>
+                                                      Emi-Control
+                                                </button> </a></div>
+                                    <div class="menue-stock" [routerLinkActive]="'active'"><a
+                                                routerLink="service-control"><button (click)="menue_click()"><i
+                                                            class="fa-solid fa-gears"></i>Service-Control
+                                                </button> </a></div>
+                                    <div class="menue-stock" [routerLinkActive]="'active'"><a
+                                                routerLink="print-voucher"><button (click)="menue_click()">
+                                                      <i class="fa-sharp fa-solid fa-print"></i>
+                                                      Print-Voucher
+                                                </button> </a></div>
 
 
                               </div>

@@ -75,6 +75,25 @@ export class CustomValidation {
         return null;
       };
     }
+    static customNumberMin1(): ValidatorFn {
+      return (control: AbstractControl): { [key: string]: any } | null => {
+        const value = control.value;
+        const invalidCharsRegex = /[^0-9]/; 
+    
+        if (value === null || value === undefined || value === '' || isNaN(value) || value < 1) {
+          console.log("Value is not valid or less than 1:", value);
+          return { required: true};
+        }
+    
+        if (invalidCharsRegex.test(value)) {
+          console.log("Invalid characters found:", value);
+          return { requiredNumber: true };
+        }
+    
+        return null;
+      };
+    }
+    
   
     static customDecimal(): ValidatorFn {
       return (control: AbstractControl): { [key: string]: any } | null => {
