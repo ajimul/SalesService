@@ -167,7 +167,7 @@ export class UpdateStockComponent implements OnInit {
         iiMonthOfWarranty: this.iiMonthOfWarranty?.value,
       };
 
-      this.service.UpdateInventory(updateInventory).subscribe({
+      this.service.updateInventory(updateInventory).subscribe({
         next: (value) => {},
         error: (e) => {},
         complete: () => {

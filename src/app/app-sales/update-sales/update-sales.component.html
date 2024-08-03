@@ -550,7 +550,11 @@
                 <div class="flex-row width100 gap10px">
                     <div class="width100 flex-clo gap10px">
                         <div>
-                            <label class="label100" for="emiProcessingFee"><strong>Emi Processiong Fee. :</strong>
+                            <label class="label100" for="emiProcessingFee"><strong>Emi Processiong Fee. :
+                                <span *ngIf="emiForm.get('emiProcessingFee')?.invalid" class="error-message">
+                                    {{ getErrorMessageEmiProcessingFee('emiProcessingFee') }}
+                                </span>
+                            </strong>
                             </label>
                         </div>
                         <div>
@@ -560,7 +564,11 @@
                     </div>
                     <div class="width100 flex-clo gap10px">
                         <div>
-                            <label class="label100" for="downPaymet"><strong>Down Payment. :</strong> </label>
+                            <label class="label100" for="downPaymet"><strong>Down Payment. :
+                                <span *ngIf="emiForm.get('downPaymet')?.invalid" class="error-message">
+                                    {{ getErrorMessageDdownPaymet('downPaymet') }}
+                                </span>
+                            </strong> </label>
                         </div>
                         <div>
                             <input class="inputtext100" id="downPaymet" formControlName="downPaymet" name="downPaymet"
@@ -572,7 +580,11 @@
                 <div class="flex-row width100 gap10px">
                     <div class="width100 flex-clo gap10px">
                         <div>
-                            <label class="label100" for="installmentRangeNumber"><strong>Inatallment Range. :</strong>
+                            <label class="label100" for="installmentRangeNumber"><strong>Inatallment Range. :
+                                <span *ngIf="emiForm.get('installmentRangeNumber')?.invalid" class="error-message">
+                                    {{ getErrorMessageInstallmentRangeMinNumber('installmentRangeNumber') }}
+                                </span>
+                            </strong>
                             </label>
                         </div>
                         <div>
@@ -583,7 +595,11 @@
                     </div>
                     <div class="width100 flex-clo gap10px">
                         <div>
-                            <label class="label100" for="installmentAmount"><strong>Inatallment Amount. :</strong>
+                            <label class="label100" for="installmentAmount"><strong>Inatallment Amount. :
+                                <span *ngIf="emiForm.get('installmentAmount')?.invalid" class="error-message">
+                                    {{ getErrorMessageInstallmentAmount('installmentAmount') }}
+                                </span>
+                            </strong>
                             </label>
                         </div>
                         <div>
@@ -598,6 +614,9 @@
                         <div>
                             <label class="label100"
                                 for="installmentDate"><strong>Starting&nbsp;Inatallment&nbsp;Date.&nbsp;:&nbsp;</strong>
+                                <span *ngIf="emiForm.get('installmentDate')?.invalid" class="error-message">
+                                    {{ getErrorMessageInstallmentDate('installmentDate') }}
+                                </span>
                             </label>
                         </div>
                         <div>

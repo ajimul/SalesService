@@ -51,7 +51,7 @@ export class UpdateEmployeeComponent implements OnInit {
 
   formSubmit() {
     if (this.employeeForm.valid) {
-      this.service.UpdateEmployee(this.employeeForm.value).subscribe({
+      this.service.updateEmployee(this.employeeForm.value).subscribe({
         next: (value) => {},
         error: (err) => {},
         complete: () => {

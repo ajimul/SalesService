@@ -47,6 +47,7 @@ import { ViewServiceControlComponent } from './app-service-control/view-service-
 import { EmiDetailComponent } from './app-emi-collection/view-emi/emi-detail/emi-detail.component';
 import { AlertComponent } from './app-alert-message/alert/alert.component';
 import { AuthInterceptor } from './interceptor/token-interceptor.service';
+import { AppBomComponent } from './app-bom/app-bom.component';
 
 
 const appRouts: Routes = [
@@ -72,6 +73,7 @@ const appRouts: Routes = [
       { path: 'service-control', component: ViewServiceControlComponent },
       { path: 'print-voucher', component: PrintComponent },
       { path: 'salesEdit', component: UpdateSalesComponent },
+      { path: 'bom', component: AppBomComponent },
     ]
 
   },
@@ -114,7 +116,8 @@ const appRouts: Routes = [
     ViewServiceControlComponent,
     PrintComponent,
     EmiDetailComponent,
-    AlertComponent
+    AlertComponent,
+    AppBomComponent
   ],
   imports: [
     BrowserModule,

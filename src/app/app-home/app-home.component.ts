@@ -22,7 +22,7 @@ export class AppHomeComponent implements OnInit {
     this.getInvoiceHeader();
   }
    logout(){
-     this.service.Logout()
+     this.service.logout()
   }
   
   sidebar_Open_Closer() {

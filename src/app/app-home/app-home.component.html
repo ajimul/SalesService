@@ -2,10 +2,10 @@
       <div class="aside-container">
             <aside>
                   <nav>
-                        <header >
+                        <header>
 
-                              <div class="nav-hambergar" id="hambergar" >
-                                    <div class="hambergar" >
+                              <div class="nav-hambergar" id="hambergar">
+                                    <div class="hambergar">
                                           <button class="hamberbutton" (click)="sidebar_Open_Closer()"><i
                                                       class="fa-solid fa-bars"></i></button>
                                     </div>
@@ -55,6 +55,12 @@
                                                 routerLink="purchaseEntry"><button>
                                                       <i class="fa-solid fa-cart-shopping"></i>
                                                       Purchase
+                                                </button>
+                                          </a>
+                                    </div>
+                                    <div class="menue-stock" [routerLinkActive]="'active'"><a routerLink="bom"><button>
+                                          <i class="fa-solid fa-industry"></i>
+                                                      BOM
                                                 </button>
                                           </a>
                                     </div>
@@ -130,6 +136,12 @@
                                                 routerLink="purchaseEntry"><button (click)="menue_click()">
                                                       <i class="fa-solid fa-cart-shopping"></i>
                                                       Purchase
+                                                </button>
+                                          </a>
+                                    </div>
+                                    <div class="menue-stock" [routerLinkActive]="'active'"><a routerLink="bom"><button>
+                                          <i class="fa-solid fa-industry"></i>
+                                                      BOM
                                                 </button>
                                           </a>
                                     </div>

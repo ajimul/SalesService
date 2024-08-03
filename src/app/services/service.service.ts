@@ -1,4 +1,9 @@
-import { HttpClient, HttpHeaders, HttpParams, HttpParamsOptions } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpParamsOptions,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -8,7 +13,11 @@ import { Stock } from '../model/stock';
 import { PayEmi } from '../model/pay-emi';
 import { EmployeeDetailsDTO } from '../model/employee';
 import { PaySalary } from '../model/paySalary';
-import { EmiCollection, EmiConfig, ProductServiceConfig } from '../model/emiCollection';
+import {
+  EmiCollection,
+  EmiConfig,
+  ProductServiceConfig,
+} from '../model/emiCollection';
 import { environment } from 'src/environments/environment';
 import { InventoryGroupLocation } from '../model/inventory-group';
 import { AccountType } from '../model/account-type';
@@ -23,208 +32,281 @@ import { Sales } from '../model/sales';
 import { BookDetails } from '../model/bookdetails';
 import { InvoiceList } from '../model/invoicelist';
 import { Product } from '../model/product';
-import { AddInventoryItemsDTO, AddInventoryDTO, AddInventoryJournalDTO, AddInventoryGroupDTO } from '../model/add-inventory';
+import {
+  AddInventoryItemsDTO,
+  AddInventoryDTO,
+  AddInventoryJournalDTO,
+  AddInventoryGroupDTO,
+} from '../model/add-inventory';
 import { AmcServiceEmi } from '../model/amc';
 import { AccountList } from '../model/account-list';
 import { invoiceHeader } from '../model/InvoiceHeader';
 import { UpdateInventoryItemsDTO } from '../model/update-inventory';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class Service {
- 
-  
   private apiServerUrl = environment.apiBaseUrl;
   token: string | undefined;
-  constructor(private http: HttpClient, private route: Router) { }
+  constructor(private http: HttpClient, private route: Router) {}
   //----------------------------------------------LOGIN SERVICE------------------------------------------------------>
-  Proceddlogin(usercred: any) {
+  login(user: any) {
     // const options = {
     //   withCredentials: true
     // };
-    return this.http.post(`${this.apiServerUrl}auth/login`, usercred);
+    return this.http.post(`${this.apiServerUrl}auth/login`, user);
   }
 
-  public OriginTest(): Observable<any> {
+  originTest(): Observable<any> {
     // const headers = new HttpHeaders({
     //   'Content-Type': 'application/json',
     //   'Access-Control-Allow-Origin': '*', // Replace with your allowed origin
     // });
     const options = {
-      responseType: 'text' as 'json' // Set the responseType to 'text'
+      responseType: 'text' as 'json', // Set the responseType to 'text'
     };
-  
-    return this.http.get(`${this.apiServerUrl}test`,options);
+
+    return this.http.get(`${this.apiServerUrl}test`, options);
   }
 
-  IsLogged() {
-    return localStorage.getItem("token") != null;
+  isLogged() {
+    return localStorage.getItem('token') != null;
   }
-  Logout() {
-    localStorage.removeItem("token");
+  logout() {
+    localStorage.removeItem('token');
     this.route.navigate(['/login']);
     localStorage.clear();
   }
 
   //----------------------------------------------PDF API TEST------------------------------------------------------>
-  public getPDF(pid: string, sname: string, standard: string): Observable<any> {
-    return this.http.get(`${this.apiServerUrl}/pdf/${pid}/${sname}/${standard}`, { responseType: "blob" });
+  getPDF(pid: string, sname: string, standard: string): Observable<any> {
+    return this.http.get(
+      `${this.apiServerUrl}/pdf/${pid}/${sname}/${standard}`,
+      { responseType: 'blob' }
+    );
     // return this.http.get(`${this.apiServerUrl}/pdf`,{ responseType: 'blob' as 'json', observe: 'response' as 'body' });
   }
-  public getAccountType(): Observable<AccountType[]> {
-    return this.http.get<AccountType[]>(`${this.apiServerUrl}/preset/data/ac/type`);
+  getAccountType(): Observable<AccountType[]> {
+    return this.http.get<AccountType[]>(
+      `${this.apiServerUrl}/preset/data/ac/type`
+    );
   }
-  public addJournal(journal: Journal): Observable<Journal> {
+  addJournal(journal: Journal): Observable<Journal> {
     return this.http.post<Journal>(`${this.apiServerUrl}journal/add`, journal);
   }
-  public addLedgerx(ledger: Ledgerx): Observable<Ledgerx> {
+  addLedgerx(ledger: Ledgerx): Observable<Ledgerx> {
     return this.http.post<Ledgerx>(`${this.apiServerUrl}ledger/add`, ledger);
   }
-  public getTransactional_AMC_Accounts(): Observable<AccountList[]> {
+  getTransactional_AMC_Accounts(): Observable<AccountList[]> {
     return this.http.get<AccountList[]>(`${this.apiServerUrl}accounts/amc`);
   }
-  public getTransactional_sales_Accounts(): Observable<AccountList[]> {
+  getTransactional_sales_Accounts(): Observable<AccountList[]> {
     return this.http.get<AccountList[]>(`${this.apiServerUrl}accounts/sales`);
   }
-  public getTransactional_purchase_Accounts(): Observable<AccountList[]> {
-    return this.http.get<AccountList[]>(`${this.apiServerUrl}accounts/purchase`);
+  getTransactional_purchase_Accounts(): Observable<AccountList[]> {
+    return this.http.get<AccountList[]>(
+      `${this.apiServerUrl}accounts/purchase`
+    );
   }
-  public getTransactional_emi_Accounts(): Observable<AccountList[]> {
+  getTransactional_emi_Accounts(): Observable<AccountList[]> {
     return this.http.get<AccountList[]>(`${this.apiServerUrl}accounts/emi`);
   }
-  public getTransactional_salary_Accounts(): Observable<AccountList[]> {
+  getTransactional_salary_Accounts(): Observable<AccountList[]> {
     return this.http.get<AccountList[]>(`${this.apiServerUrl}accounts/salary`);
   }
-  public getPartyAccounts(): Observable<PartyDetailsDTO[]> {
-    return this.http.get<PartyDetailsDTO[]>(`${this.apiServerUrl}accounts/party`);
+  getPartyAccounts(): Observable<PartyDetailsDTO[]> {
+    return this.http.get<PartyDetailsDTO[]>(
+      `${this.apiServerUrl}accounts/party`
+    );
   }
-  public addPartyAccounts(party: any): Observable<PartyDetailsDTO> {
-    return this.http.post<PartyDetailsDTO>(`${this.apiServerUrl}accounts/party/add`, party);
+  addPartyAccounts(party: any): Observable<PartyDetailsDTO> {
+    return this.http.post<PartyDetailsDTO>(
+      `${this.apiServerUrl}accounts/party/add`,
+      party
+    );
   }
-  public updatePartyAccounts(party: any): Observable<PartyDetailsDTO> {
-    console.log(party)
-    return this.http.put<PartyDetailsDTO>(`${this.apiServerUrl}accounts/party/update`, party);
+  updatePartyAccounts(party: any): Observable<PartyDetailsDTO> {
+    console.log(party);
+    return this.http.put<PartyDetailsDTO>(
+      `${this.apiServerUrl}accounts/party/update`,
+      party
+    );
   }
-  public getStocks(): Observable<UpdateInventoryItemsDTO[]> {
-    return this.http.get<UpdateInventoryItemsDTO[]>(`${this.apiServerUrl}inventory/`);
+  getStocks(): Observable<UpdateInventoryItemsDTO[]> {
+    return this.http.get<UpdateInventoryItemsDTO[]>(
+      `${this.apiServerUrl}inventory/`
+    );
   }
-  public getStocksById(id:number): Observable<AddInventoryItemsDTO> {
-    return this.http.get<AddInventoryItemsDTO>(`${this.apiServerUrl}inventory/${id}`);
+  getStocksById(id: number): Observable<AddInventoryItemsDTO> {
+    return this.http.get<AddInventoryItemsDTO>(
+      `${this.apiServerUrl}inventory/${id}`
+    );
   }
 
-  public getEmiList(): Observable<EmiCollection[]> {
+  getEmiList(): Observable<EmiCollection[]> {
     return this.http.get<EmiCollection[]>(`${this.apiServerUrl}emi/`);
   }
-  public getEmiConfig(): Observable<EmiConfig[]> {
+  getEmiConfig(): Observable<EmiConfig[]> {
     return this.http.get<EmiConfig[]>(`${this.apiServerUrl}emi/config`);
   }
-  public getProductServiceList(): Observable<ProductServiceConfig[]> {
-    return this.http.get<ProductServiceConfig[]>(`${this.apiServerUrl}product/service/config`);
+  getProductServiceList(): Observable<ProductServiceConfig[]> {
+    return this.http.get<ProductServiceConfig[]>(
+      `${this.apiServerUrl}product/service/config`
+    );
   }
-  public updateEmiConfig(data: any): Observable<any> {
+  updateEmiConfig(data: any): Observable<any> {
     return this.http.put<EmiConfig>(`${this.apiServerUrl}emi/update`, data);
   }
-  public updateProductServiceConfig(data: any): Observable<any> {
-    return this.http.put<ProductServiceConfig>(`${this.apiServerUrl}product/service/update`, data);
+  updateProductServiceConfig(data: any): Observable<any> {
+    return this.http.put<ProductServiceConfig>(
+      `${this.apiServerUrl}product/service/update`,
+      data
+    );
   }
-  public payEmi(payEmi: PayEmi): Observable<any> {
+  payEmi(payEmi: PayEmi): Observable<any> {
     return this.http.post<Emi>(`${this.apiServerUrl}emi/pay`, payEmi);
   }
-  public paySalary(paySalary: PaySalary): Observable<any> {
-    return this.http.post<PaySalary>(`${this.apiServerUrl}salary/add`, paySalary);
+  paySalary(paySalary: PaySalary): Observable<any> {
+    return this.http.post<PaySalary>(
+      `${this.apiServerUrl}salary/add`,
+      paySalary
+    );
   }
-  // public getUser(): Observable<User[]> {
+  //  getUser(): Observable<User[]> {
   //   return this.http.get<User[]>(`${this.apiServerUrl}user/`);
   // }
-  public addStock(party: any): Observable<any> {
+  addStock(party: any): Observable<any> {
     return this.http.post<Stock>(`${this.apiServerUrl}stock/add`, party);
   }
-  public addInventory(inventory: AddInventoryDTO): Observable<AddInventoryDTO> {
-    return this.http.post<AddInventoryDTO>(`${this.apiServerUrl}inventory/add`, inventory);
+  addInventory(inventory: AddInventoryDTO): Observable<AddInventoryDTO> {
+    return this.http.post<AddInventoryDTO>(
+      `${this.apiServerUrl}inventory/add`,
+      inventory
+    );
   }
-  // public addEmployee(employee: Employee): Observable<any> {
+  //  addEmployee(employee: Employee): Observable<any> {
   //   return this.http.post<Employee>(`${this.apiServerUrl}accounts/emp/add`, employee);
   // }
 
-  public send_SMS(sms: any): Observable<SMS> {
+  send_SMS(sms: any): Observable<SMS> {
     return this.http.post<SMS>(`${this.apiServerUrl}sms/send`, sms);
   }
-  public addEmployee(employee: any): Observable<any> {
-    return this.http.post<EmployeeDetailsDTO>(`${this.apiServerUrl}accounts/emp/add`, employee);
+  addEmployee(employee: any): Observable<any> {
+    return this.http.post<EmployeeDetailsDTO>(
+      `${this.apiServerUrl}accounts/emp/add`,
+      employee
+    );
   }
-  public getEmployee(): Observable<EmployeeDetailsDTO[]> {
-    return this.http.get<EmployeeDetailsDTO[]>(`${this.apiServerUrl}accounts/emp`);
+  getEmployee(): Observable<EmployeeDetailsDTO[]> {
+    return this.http.get<EmployeeDetailsDTO[]>(
+      `${this.apiServerUrl}accounts/emp`
+    );
   }
-  public UpdateEmployee(employee: any): Observable<EmployeeDetailsDTO> {
-    return this.http.put<EmployeeDetailsDTO>(`${this.apiServerUrl}accounts/emp/update`, employee);
+  updateEmployee(employee: any): Observable<EmployeeDetailsDTO> {
+    return this.http.put<EmployeeDetailsDTO>(
+      `${this.apiServerUrl}accounts/emp/update`,
+      employee
+    );
   }
-  public UpdateInventory(items: UpdateInventoryItemsDTO): Observable<UpdateInventoryItemsDTO> {
-    return this.http.put<UpdateInventoryItemsDTO>(`${this.apiServerUrl}inventory/update`, items);
+  updateInventory(
+    items: UpdateInventoryItemsDTO
+  ): Observable<UpdateInventoryItemsDTO> {
+    return this.http.put<UpdateInventoryItemsDTO>(
+      `${this.apiServerUrl}inventory/update`,
+      items
+    );
   }
-  // public addInventoryJournal(inventoryJournal: any): Observable<InventoryJournal> {
+  //  addInventoryJournal(inventoryJournal: any): Observable<InventoryJournal> {
   //   return this.http.post<InventoryJournal>(`${this.apiServerUrl}inventory/journal/add`, inventoryJournal);
   // }
-  public addPurchase(book: Purchase): Observable<any> {
+  addPurchase(book: Purchase): Observable<any> {
     return this.http.post<any>(`${this.apiServerUrl}purchase/add`, book);
   }
-  public addPurchaseReturn(book: Purchase): Observable<any> {
+  addPurchaseReturn(book: Purchase): Observable<any> {
     return this.http.post<any>(`${this.apiServerUrl}purchase/return/add`, book);
   }
-  public addSalesReturn(book: Purchase): Observable<any> {
+  addSalesReturn(book: Purchase): Observable<any> {
     return this.http.post<any>(`${this.apiServerUrl}sales/return/add`, book);
   }
-  public addSales(sales: Sales): Observable<any> {
+  addSales(sales: Sales): Observable<any> {
     return this.http.post<any>(`${this.apiServerUrl}sales/add`, sales);
   }
-  public addSalesEdit(sales: Sales,voucherId:number): Observable<Sales> {
-    return this.http.post<Sales>(`${this.apiServerUrl}sales/edit/${voucherId}`, sales);
+  addSalesEdit(sales: Sales, voucherId: number): Observable<Sales> {
+    return this.http.post<Sales>(
+      `${this.apiServerUrl}sales/edit/${voucherId}`,
+      sales
+    );
   }
-  public deleteInvoice(voucherId:number): Observable<any> {
-    return this.http.delete<any>(`${this.apiServerUrl}sales/delete/${voucherId}`);
+  deleteInvoice(voucherId: number): Observable<any> {
+    return this.http.delete<any>(
+      `${this.apiServerUrl}sales/delete/${voucherId}`
+    );
   }
-  public addAmcServiceEmi(amc: AmcServiceEmi): Observable<any> {
+  addAmcServiceEmi(amc: AmcServiceEmi): Observable<any> {
     return this.http.post<any>(`${this.apiServerUrl}amc/service/add`, amc);
   }
-  public addProductOfService(productService: Product[]): Observable<any> {
-    return this.http.post<Product[]>(`${this.apiServerUrl}sales/add/product/s`, productService);
+  addProductOfService(productService: Product[]): Observable<any> {
+    return this.http.post<Product[]>(
+      `${this.apiServerUrl}sales/add/product/s`,
+      productService
+    );
   }
-  public addInstallmentService(productService: Product[]): Observable<any> {
-    return this.http.post<Product[]>(`${this.apiServerUrl}sales/add/installment/s`, productService);
+  addInstallmentService(productService: Product[]): Observable<any> {
+    return this.http.post<Product[]>(
+      `${this.apiServerUrl}sales/add/installment/s`,
+      productService
+    );
   }
-  public getItemsGroupList(): Observable<AddInventoryGroupDTO[]> {
-    return this.http.get<AddInventoryGroupDTO[]>(`${this.apiServerUrl}items/group/`);
+  getItemsGroupList(): Observable<AddInventoryGroupDTO[]> {
+    return this.http.get<AddInventoryGroupDTO[]>(
+      `${this.apiServerUrl}items/group/`
+    );
   }
-  public getItemsLocationList(): Observable<InventoryGroupLocation[]> {
-    return this.http.get<InventoryGroupLocation[]>(`${this.apiServerUrl}items/location/`);
+  getItemsLocationList(): Observable<InventoryGroupLocation[]> {
+    return this.http.get<InventoryGroupLocation[]>(
+      `${this.apiServerUrl}items/location/`
+    );
   }
-  public addItemGroup(itemsGroup: string): Observable<AddInventoryGroupDTO>{
-    return this.http.post<AddInventoryGroupDTO>(`${this.apiServerUrl}items/group/add`,itemsGroup);
+  addItemGroup(itemsGroup: string): Observable<AddInventoryGroupDTO> {
+    return this.http.post<AddInventoryGroupDTO>(
+      `${this.apiServerUrl}items/group/add`,
+      itemsGroup
+    );
   }
-  public addItemLocation(itemsLocation: string): Observable<AddInventoryGroupDTO>{
-    return this.http.post<AddInventoryGroupDTO>(`${this.apiServerUrl}items/location/add`,itemsLocation);
+  addItemLocation(itemsLocation: string): Observable<AddInventoryGroupDTO> {
+    return this.http.post<AddInventoryGroupDTO>(
+      `${this.apiServerUrl}items/location/add`,
+      itemsLocation
+    );
   }
-  public getInvoiceListToPrint(): Observable<InvoiceList[]> {
+  getInvoiceListToPrint(): Observable<InvoiceList[]> {
     return this.http.get<InvoiceList[]>(`${this.apiServerUrl}invoice/`);
   }
-    public getInvoicePdf(bookInfoId:number): Observable<any> {
-    return this.http.get(`${this.apiServerUrl}single/report/${bookInfoId}`, { responseType: "blob" });
+  getInvoicePdf(bookInfoId: number): Observable<any> {
+    return this.http.get(`${this.apiServerUrl}single/report/${bookInfoId}`, {
+      responseType: 'blob',
+    });
     // return this.http.get(`${this.apiServerUrl}api/single/report/${acId}/${bookInfoId}`, { responseType: 'blob' as 'json', observe: 'response' as 'body' });
   }
-  public getBookDetailsList(bookInfoId:number): Observable<BookDetails[]> {
-    return this.http.get<BookDetails[]>(`${this.apiServerUrl}inven/items/books/${bookInfoId}`);
+  getBookDetailsList(bookInfoId: number): Observable<BookDetails[]> {
+    return this.http.get<BookDetails[]>(
+      `${this.apiServerUrl}inven/items/books/${bookInfoId}`
+    );
   }
-  public getInvoiceHeader(): Observable<invoiceHeader[]> {
-    return this.http.get<invoiceHeader[]>(`${this.apiServerUrl}invoice-headers/`);
+  getInvoiceHeader(): Observable<invoiceHeader[]> {
+    return this.http.get<invoiceHeader[]>(
+      `${this.apiServerUrl}invoice-headers/`
+    );
   }
-  public addInvoiceHeader(invoiceHeader: string): Observable<invoiceHeader>{
-    return this.http.post<invoiceHeader>(`${this.apiServerUrl}invoice-headers/add`,invoiceHeader);
+  addInvoiceHeader(invoiceHeader: string): Observable<invoiceHeader> {
+    return this.http.post<invoiceHeader>(
+      `${this.apiServerUrl}invoice-headers/add`,
+      invoiceHeader
+    );
   }
 
-  // 
-  // 
   saveContact(contact: any): Observable<any> {
     return this.http.post<any>(`${this.apiServerUrl}contacts`, contact);
   }
 }
-
